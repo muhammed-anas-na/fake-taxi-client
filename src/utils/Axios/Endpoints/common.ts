@@ -5,6 +5,7 @@
 export const LOGIN_API = "http://localhost:8000/login"
 export const SIGNUP_API = "http://localhost:8000/signup"
 export const GOOGLE_LOGIN_API="http://localhost:8000/google/auth"
+export const SEND_OTP_API = "http://localhost:8000/send-otp"; 
 
 //DRIVER API
 export const DRIVER_SIGNUP_API = "http://localhost:8001/signup"

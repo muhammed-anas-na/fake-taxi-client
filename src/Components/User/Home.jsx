@@ -1,8 +1,10 @@
 import Header from './Header';
 import Footer from './Footer'
 import './Home.css'
+import axios from 'axios'
 
 export default function Home() {
+  axios.get('http://localhost:8000/hi')
   return (
     <>
     <div className="bg-hero h-svh">

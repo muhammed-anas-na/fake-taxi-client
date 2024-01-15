@@ -4,7 +4,7 @@ import { Link , useNavigate} from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import './UserSIgnup.css';
 import axios from 'axios';
-import { SignupFn } from '../../utils/Axios/methods/POST';
+import { SignupFn , SendOtpFn } from '../../utils/Axios/methods/POST';
 import {useDispatch } from 'react-redux';
 import { addUser } from '../../utils/Redux/Slice/UserSlice';
 import { addtoken } from '../../utils/Redux/Slice/tokenSlice';
@@ -20,17 +20,29 @@ export default function UserSignup() {
   } = useForm();
 
   const handleSignup=async(data)=>{
+    // try{
+    //     const response = await SignupFn(data);
+    //     if(response.data.accessToken){
+    //       dispatch(addUser(response.data.newUser));
+    //       dispatch(addtoken(response.data.accessToken));
+    //       axios.defaults.headers.common['Authorization'] = `${response.data.accessToken}`
+    //       navigate('/otp');
+    //     }
+    // }catch(err){
+    //   toast.error(err.response.data.errMessage)
+    // }
     try{
-        const response = await SignupFn(data);
-        if(response.data.accessToken){
-          dispatch(addUser(response.data.newUser));
-          dispatch(addtoken(response.data.accessToken));
-          axios.defaults.headers.common['Authorization'] = `${response.data.accessToken}`
-          navigate('/');
-        }
+      const response = await SendOtpFn(data);
+      if(response.data.accepted.length == 0){
+        toast.error(`Email not valid`)
+      }else{
+        localStorage.setItem('userData' , JSON.stringify(data));
+        navigate('/otp')
+      }
     }catch(err){
       toast.error(err.response.data.errMessage)
     }
+
   }
 
   return (
@@ -118,12 +130,14 @@ export default function UserSignup() {
                 <p className="text-red-500 text-xs">Invalid Password</p>
               )}
             </div>
+
             <button
               type="submit"
               className="mb-3 text-white bg-blue-500 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-28 py-2.5 mt-16 text-center me-2"
             >
               SIGNUP
             </button>
+
           </form>
         </div>
         <p className="mt-2">

@@ -1,6 +1,5 @@
 import {useState , lazy , Suspense} from 'react';
 
-
 const Tripspage = lazy(()=> import('./ProfileComponents/TripsPage'))
 const Rewardspage = lazy(()=> import('./ProfileComponents/RewardPage'))
 const Walletpage = lazy(()=> import('./ProfileComponents/WalletPage'));

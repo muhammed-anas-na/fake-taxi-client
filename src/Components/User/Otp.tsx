@@ -1,24 +1,55 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect } from "react";
+import { SignupFn , SendOtpFn } from '../../utils/Axios/methods/POST';
+import {useDispatch } from 'react-redux';
+import { addUser } from '../../utils/Redux/Slice/UserSlice';
+import { addtoken } from '../../utils/Redux/Slice/tokenSlice';
+import axios from 'axios'
 
 export default function Otp() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  //Counter for timer 60s
   const [counter, setCounter] = useState(60);
 
   useEffect(() => {
+    toast.success("Email send succesfull" ,{
+      position: toast.POSITION.TOP_CENTER,
+    })
     const timer = setInterval(() => {
         setCounter((prevCounter) => (prevCounter > 0 ? prevCounter - 1 : 0));
     }, 1000);
 
     return () => clearInterval(timer);
   }, []);
+
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
+
+  const handleConfirmOtp =async(otp: object)=>{
+    try{
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        console.log(userData)
+        let data = {...userData,...otp}
+        const response = await SignupFn(data);
+        console.log("RESPONSE",response);
+        if(response.data.accessToken){
+          dispatch(addUser(response.data.newUser));
+          dispatch(addtoken(response.data.accessToken));
+          axios.defaults.headers.common['Authorization'] = `${response.data.accessToken}`
+          navigate('/');
+        }
+    }catch(err){
+      toast.error(err.response.data.errMessage)
+    }
+  }
 
   return (
     <div className="screen bg-bg-image h-svh">
@@ -26,7 +57,7 @@ export default function Otp() {
       <div className="grid place-items-center">
         <div className="h-auto w-96 bg-white rounded-2xl shadow-2xl mt-56 text-center">
           <h1 className="font-bold mt-5 text-4xl">ENTER OTP</h1>
-          <form method="post" onSubmit={handleSubmit}>
+          <form method="post" onSubmit={handleSubmit(handleConfirmOtp)}>
             <div className="mt-8">
               <input
                 {...register("otp", {

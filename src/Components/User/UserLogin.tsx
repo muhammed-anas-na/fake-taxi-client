@@ -15,7 +15,7 @@ import axios from 'axios';
 export default function UserLogin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  axios.get('http://localhost:8000/helo')
   const {
     register,
     formState: { errors },
