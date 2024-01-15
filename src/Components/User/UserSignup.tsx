@@ -32,13 +32,9 @@ export default function UserSignup() {
     //   toast.error(err.response.data.errMessage)
     // }
     try{
-      const response = await SendOtpFn(data);
-      if(response.data.accepted.length == 0){
-        toast.error(`Email not valid`)
-      }else{
+        let response = await SendOtpFn(data)
         localStorage.setItem('userData' , JSON.stringify(data));
         navigate('/otp')
-      }
     }catch(err){
       toast.error(err.response.data.errMessage)
     }

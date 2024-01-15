@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { DriverSendOtpFn } from "../../utils/Axios/methods/POST";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -12,10 +13,10 @@ export default function Signup() {
     handleSubmit,
   } = useForm();
 
-  function handleDriverSignup(data){
-    console.log(data)
+  async function handleDriverSignup(data){
     localStorage.setItem('driverDetails' ,JSON.stringify(data));
-    navigate('/driver/vehicle_details')
+    const response = await DriverSendOtpFn(data);
+    navigate('/driver/otp')
   }
 
   return (

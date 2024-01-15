@@ -1,12 +1,11 @@
 import axios from 'axios';
-import { LOGIN_API , SIGNUP_API , DRIVER_SIGNUP_API , DRIVER_LOGIN_API ,GOOGLE_LOGIN_API, ADMIN_LOGIN_API,SEND_OTP_API } from '../Endpoints/common';
+import { LOGIN_API , SIGNUP_API , DRIVER_SIGNUP_API , DRIVER_LOGIN_API ,GOOGLE_LOGIN_API, ADMIN_LOGIN_API,SEND_OTP_API, DRIVER_SEND_OTP_API , DRIVER_CHECK_OTP_API } from '../Endpoints/common';
 
 const axiosInstance = axios.create({
   withCredentials: true, // Enables the sending of cookies with cross-origin requests
   headers: {
     'Content-Type': 'application/json',
   },
-  
 });
 
 
@@ -47,7 +46,7 @@ export const SendOtpFn =  async(data: object)=>{
 //DRIVER METHODS
 export const DriverSignupFn = async(data: object)=>{
     try{
-        return axios.post(DRIVER_SIGNUP_API , data);
+        return axiosInstance.post(DRIVER_SIGNUP_API , data);
     }catch(err){
         return err;
     }
@@ -55,7 +54,23 @@ export const DriverSignupFn = async(data: object)=>{
 
 export const DriverLoginFn = async(data: object)=>{
     try{
-        return axios.post(DRIVER_LOGIN_API,data)
+        return axiosInstance.post(DRIVER_LOGIN_API,data)
+    }catch(err){
+        return err;
+    }
+}
+
+export const DriverSendOtpFn = async(data: object)=>{
+    try{
+        return axiosInstance.post(DRIVER_SEND_OTP_API , data);
+    }catch(err){
+        return err;
+    }
+}
+
+export const DriverCheckOtpFn = async(data:object)=>{
+    try{
+        return axiosInstance.post(DRIVER_CHECK_OTP_API , data);
     }catch(err){
         return err;
     }
@@ -64,7 +79,7 @@ export const DriverLoginFn = async(data: object)=>{
 //ADMIN METHODS
 export const AdminLoginFn= async(data: object)=>{
     try{
-        return axios.post(ADMIN_LOGIN_API,data);
+        return axiosInstance.post(ADMIN_LOGIN_API,data);
     }catch(err){
         return err;
     }

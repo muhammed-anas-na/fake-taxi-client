@@ -29,6 +29,7 @@ export default function EnterVhDetails() {
         dispatch(addtoken(response.data.accessToken));
         axios.defaults.headers.common['Authorization'] = `${response.data.accessToken}` 
         navigate("/driver");
+        localStorage.removeItem('driverDetails')
       }
     } catch (err) {
       console.log(err);

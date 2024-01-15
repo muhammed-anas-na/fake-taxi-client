@@ -3,6 +3,7 @@ import Login from "../Components/Driver/Login";
 import Signup from "../Components/Driver/Signup";
 import EnterVhDetails from "../Components/Driver/EnterVhDetails";
 import DriverHome from "../Components/Driver/DriverHome";
+import Otp from "../Components/Driver/Otp";
 
 export default function DriverRoutes(){
     return(
@@ -10,6 +11,7 @@ export default function DriverRoutes(){
             <Route path="/" element={<DriverHome/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/signup" element={<Signup/>}/>
+            <Route path="/otp" element={<Otp/>}/>
             <Route path="/vehicle_details" element={<EnterVhDetails/>}/>
             
         </Routes>
