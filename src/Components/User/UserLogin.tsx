@@ -12,10 +12,22 @@ import { addUser, clearUser } from "../../utils/Redux/Slice/UserSlice";
 import { addtoken } from "../../utils/Redux/Slice/tokenSlice";
 import axios from 'axios';
 
+interface storeData{
+  token:{
+    token:string
+  }
+}
+
 export default function UserLogin() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  axios.get('http://localhost:8000/helo')
+  const token = useSelector((store: storeData)=>store.token.token)
+  console.log("Token =>" , token)
+  if(token){
+    alert("HI")
+    navigate('/')
+  }
+  const dispatch = useDispatch();
+
   const {
     register,
     formState: { errors },
