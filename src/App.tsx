@@ -1,4 +1,4 @@
-import { Link, Outlet, Route, Routes } from "react-router-dom";
+import {  Route, Routes } from "react-router-dom";
 
 import UserRoute from './Routes/UserRoutes';
 import DriverRoute from './Routes/DriverRoutes'

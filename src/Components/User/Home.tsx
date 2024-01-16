@@ -1,8 +1,16 @@
 import Header from './Header';
 import Footer from './Footer'
 import './Home.css'
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+interface storeData{
+  token:{token:string}
+}
 
 export default function Home() {
+
+
   return (
     <>
     <div className="bg-hero h-svh">
@@ -12,7 +20,9 @@ export default function Home() {
         <div>
           <h1 className='font-bold text-6xl'>Easy and fast way to move</h1>
           <p className='text-xs'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud</p>
+          <Link to={'/bookcab'}>
           <button type="button" className="font-extrabold mt-5 text-white bg-base-yellow hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2">BOOK A CAB</button>
+          </Link>
         </div>
         <div>
           <img id='hero' src={'/hero-image.png'} width={900} height={800} alt='image' />
@@ -20,6 +30,7 @@ export default function Home() {
       </div>
     </div>
     <Footer/>
+   
     </>
   )
 }

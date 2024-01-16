@@ -54,7 +54,7 @@ export default function UserLogin() {
     <div className="screen bg-bg-image h-svh">
       <ToastContainer />
       <div className="grid place-items-center">
-        <div className="h-auto w-96 bg-white rounded-2xl shadow-2xl mt-56 text-center">
+        <div className="h-auto w-96 bg-white rounded-2xl shadow-2xl mt-44 text-center">
           <h1 className="font-bold mt-5 text-4xl">LOGIN</h1>
           <form method="post" onSubmit={handleSubmit(handleLogin)}>
             <div className="mt-8">

@@ -3,16 +3,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link , useNavigate} from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import './UserSIgnup.css';
-import axios from 'axios';
-import { SignupFn , SendOtpFn } from '../../utils/Axios/methods/POST';
-import {useDispatch } from 'react-redux';
-import { addUser } from '../../utils/Redux/Slice/UserSlice';
-import { addtoken } from '../../utils/Redux/Slice/tokenSlice';
+import { SendOtpFn } from '../../utils/Axios/methods/POST';
+import { useState } from 'react';
+import Lottie from 'lottie-react';
+import animationData from "../../assets/Animations/car-loading.json";
 
 export default function UserSignup() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
+  const [clicked,setClicked] = useState(false);
   const {
     register,
     formState: { errors },
@@ -20,6 +18,7 @@ export default function UserSignup() {
   } = useForm();
 
   const handleSignup=async(data)=>{
+    setClicked(true);
     // try{
     //     const response = await SignupFn(data);
     //     if(response.data.accessToken){
@@ -36,6 +35,7 @@ export default function UserSignup() {
         localStorage.setItem('userData' , JSON.stringify(data));
         navigate('/otp')
     }catch(err){
+      setClicked(false)
       toast.error(err.response.data.errMessage)
     }
 
@@ -126,13 +126,25 @@ export default function UserSignup() {
                 <p className="text-red-500 text-xs">Invalid Password</p>
               )}
             </div>
-
-            <button
+            {clicked ? (
+              <div className="mb-3 bg-blue-500 hover:bg-blue-800 rounded-lg mt-16 text-center mx-10">
+                <Lottie animationData={animationData} style={{height:"40px"}} />
+              </div>
+      ) : (
+        <button
+          type="submit"
+          className="mb-3 text-white bg-blue-500 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-28 py-2.5 mt-16 text-center me-2"
+        >
+          SIGNUP
+        </button>
+      )}
+            {/* <button
               type="submit"
               className="mb-3 text-white bg-blue-500 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-28 py-2.5 mt-16 text-center me-2"
             >
               SIGNUP
-            </button>
+            </button> */}
+
 
           </form>
         </div>

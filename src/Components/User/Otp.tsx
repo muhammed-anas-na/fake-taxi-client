@@ -62,6 +62,7 @@ export default function Otp() {
           dispatch(addtoken(response.data.accessToken));
           axios.defaults.headers.common['Authorization'] = `${response.data.accessToken}`
           navigate('/');
+          localStorage.removeItem('userData');
         }
     }catch(err){
       toast.error(err.response.data.errMessage)

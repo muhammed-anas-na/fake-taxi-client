@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@coreui/coreui": "^4.3.2",
+    "@coreui/react": "^4.11.1",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.0.1",
     "axios": "^1.6.5",

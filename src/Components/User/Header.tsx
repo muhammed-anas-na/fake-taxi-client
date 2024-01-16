@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 export default function Header(){
+    const token = useSelector((store: storeData)=>store.token.token)
     return (
         <header className="grid grid-cols-7 p-5">
             <div>
@@ -12,19 +14,23 @@ export default function Header(){
             <Link to={'/profile'}>Profile</Link>
             
             <div></div>
-            
-            <div className='flex'>
-            <Link to={'/login'}>
-                <button type="button" className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2">
-                    Sign in
-                </button>
-                </Link>
-                <Link to={'/signup'}>
-                <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center">
-                    Sign up
-                </button>
-                </Link>
-            </div>
+            {
+                token?"":(
+                    <div className='flex'>
+                    <Link to={'/login'}>
+                        <button type="button" className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2">
+                            Sign in
+                        </button>
+                        </Link>
+                        <Link to={'/signup'}>
+                        <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center">
+                            Sign up
+                        </button>
+                        </Link>
+                    </div>
+                )
+            }
+
         </header>
     )
 }
