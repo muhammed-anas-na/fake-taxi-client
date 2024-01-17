@@ -1,5 +1,16 @@
 import axios from 'axios';
-import { LOGIN_API , SIGNUP_API , DRIVER_SIGNUP_API , DRIVER_LOGIN_API ,GOOGLE_LOGIN_API, ADMIN_LOGIN_API,SEND_OTP_API, DRIVER_SEND_OTP_API , DRIVER_CHECK_OTP_API } from '../Endpoints/common';
+import { LOGIN_API ,
+    SIGNUP_API,
+    DRIVER_SIGNUP_API,
+    DRIVER_LOGIN_API,
+    GOOGLE_LOGIN_API,
+    ADMIN_LOGIN_API,
+    SEND_OTP_API, 
+    DRIVER_SEND_OTP_API, 
+    DRIVER_CHECK_OTP_API,
+    SEARCH_LOCATION_API,
+
+} from '../Endpoints/common';
 
 const axiosInstance = axios.create({
   withCredentials: true, // Enables the sending of cookies with cross-origin requests
@@ -43,6 +54,14 @@ export const SendOtpFn =  async(data: object)=>{
 }
 
 
+export const SearchLocationFn = (data: object)=>{
+    try{
+        console.log("Requesting with " ,data);
+        return axiosInstance.post(SEARCH_LOCATION_API , {data});
+    }catch(err){
+        return err;
+    }
+}
 //DRIVER METHODS
 export const DriverSignupFn = async(data: object)=>{
     try{
