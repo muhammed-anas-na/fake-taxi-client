@@ -43,7 +43,7 @@ export default function DriverRoutes() {
       />
 
       <Route
-        path="bookcab"
+        path="/searchcab"
         element={
           //Protect this route
           <Bookcab />

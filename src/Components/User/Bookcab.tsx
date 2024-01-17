@@ -1,60 +1,38 @@
+import Fa from 'react-fontawesome';
+import Dailyrides from "./SearchcabComponents/Dailyrides";
+import { useNavigate } from 'react-router-dom';
 export default function Bookcab() {
+  const navigate = useNavigate()
   return (
-    <div className="bg-hero h-svh p-28">
-      <div className="grid grid-cols-5 grid-rows-5 gap-4">
-        <div className="col-span-3 row-span-2">
-          <h1>FIND A CAB</h1>
-        </div>
-
-        <div className="col-span-2 row-span-5 col-start-4"></div>
-
-        <div className="flex col-span-3 row-start-3">
-          <div>
-            <h3 className="mx-6 bg-base-yellow px-5 rounded-full">
-              DAILY RIDES
-            </h3>
-          </div>
-          <div>
-            <h3 className="mx-6 bg-base-yellow px-5 rounded-full">
-              OUTSTATIONS
-            </h3>
-          </div>
-          <div>
-            <h3 className="mx-6 bg-base-yellow px-5 rounded-full">RENTALS</h3>
-          </div>
-        </div>
-
-        <div className="flex col-span-3 row-span-2 row-start-6">
-          <div>
-            <label className="relative block overflow-hidden border-b border-gray-200 bg-transparent pt-3 focus-within:border-blue-600">
-              <input
-                type="text"
-                id="Name"
-                placeholder="Name"
-                className="peer h-8 w-full border-none bg-transparent p-0 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
-              />
-              <span className="absolute start-0 top-2 -translate-y-1/2 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-2 peer-focus:text-xs">
-                Name
-              </span>
-            </label>
-          </div>
-
-          <div>
-            <label className="relative block overflow-hidden border-b border-gray-200 bg-transparent pt-3 focus-within:border-blue-600">
-              <input
-                type="number"
-                id="number"
-                placeholder="Number"
-                className="peer h-8 w-full border-none bg-transparent p-0 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
-              />
-
-              <span className="absolute start-0 top-2 -translate-y-1/2 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-2 peer-focus:text-xs">
-                Number
-              </span>
-            </label>
+    <div className="bg-hero h-svh ">
+      <Fa onClick={()=>navigate(-1)} name="arrow-left" className='px-4 py-3 cursor-pointer'/>
+      <section className="relative flex items-center w-full">
+        <div className="relative items-center w-full px-5 py-24 mx-auto max-w-7xl md:px-12">
+          <div className="relative flex-col items-start align-middle">
+            <div className="grid grid-cols-1 gap-6 lg:gap-24 lg:grid-cols-2">
+              <div className="relative gap-12 m-auto lg:inline-flex">
+                <div className="max-w-xl text-center lg:text-left">
+                  <div className="flex gap-32 ">
+                    <span className="bg-base-yellow rounded-full w-auto px-4 cursor-pointer">
+                      Daily Rides
+                    </span>
+                    <span className="cursor-pointer">Outstations</span>
+                    <span className="cursor-pointer">Rentals</span>
+                  </div>
+                  <Dailyrides/>
+                </div>
+              </div>
+              <div className="block w-full mt-12 lg:mt-0">
+                <img
+                  alt="hero"
+                  className="object-cover object-center w-full mx-auto drop-shadow-xl lg:ml-auto rounded-2xl"
+                  src="/hero-image.png"
+                />
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
