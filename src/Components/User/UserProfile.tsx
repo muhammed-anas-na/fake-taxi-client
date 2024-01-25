@@ -15,7 +15,7 @@ export default function UserProfile(){
 
     return(
         <div className='flex'>
-            <div className={`${open? "w-72":"w-20"} h-screen bg-base-yellow relative p-5 pt-8 duration-500`}>
+            <div className={`${open? "w-72":"w-20"} h-screen bg-base-yellow relative p-5 pt-8 duration-500 `}>
                 <img
                 className={`absolute cursor-pointer rounded-full -right-3 top-9 w-8 ${!open && "rotate-180"}`}
                 onClick={()=>{setOpen(!open)}}

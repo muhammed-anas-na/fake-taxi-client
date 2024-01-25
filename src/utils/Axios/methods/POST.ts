@@ -9,6 +9,7 @@ import { LOGIN_API ,
     DRIVER_SEND_OTP_API, 
     DRIVER_CHECK_OTP_API,
     SEARCH_LOCATION_API,
+    FIND_CAB_API,
 
 } from '../Endpoints/common';
 
@@ -54,14 +55,30 @@ export const SendOtpFn =  async(data: object)=>{
 }
 
 
-export const SearchLocationFn = (data: object)=>{
+export const SearchLocationFn = (data: string)=>{
     try{
-        console.log("Requesting with " ,data);
         return axiosInstance.post(SEARCH_LOCATION_API , {data});
     }catch(err){
         return err;
     }
 }
+
+export const findCabFn = (data: object)=>{
+    try{
+        return axiosInstance.post(FIND_CAB_API , data)
+    }catch(err){
+        return err;
+    }
+}
+
+export const MatchDriver = (data: object)=>{
+    try{
+        axiosInstance.post('http:localhost:8003' , data);
+    }catch(err){
+        return err;
+    }
+}
+
 //DRIVER METHODS
 export const DriverSignupFn = async(data: object)=>{
     try{

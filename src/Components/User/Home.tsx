@@ -29,7 +29,7 @@ export default function Home() {
                     <div className="flex flex-col items-center gap-3 mt-10 lg:flex-row">
                       <Link to={'/searchcab'}>
                       <button
-                        className="bg-blue-500 rounded-full inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 focus:shadow-outline focus:outline-none"
+                        className="bg-blue-500 rounded-full inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-500 hover:bg-black"
                         aria-label="Sign up"
                         title="Sign up"
                       >
@@ -128,7 +128,7 @@ export default function Home() {
                             </svg>
                           </div>
                           <span className="text-slate-500">
-                            Chrome store rating
+                            Customer rating
                           </span>
                         </div>
                       </div>
@@ -146,7 +146,7 @@ export default function Home() {
                 <div className="block w-full mt-12 lg:mt-0">
                   <img
                     alt="hero"
-                    className="object-cover object-center w-full mx-auto drop-shadow-xl lg:ml-auto rounded-2xl"
+                    className="object-cover object-center w-full mx-auto drop-shadow-xl lg:ml-auto rounded-2xl hidden lg:block"
                     src="/hero-image.png"
                   />
                 </div>

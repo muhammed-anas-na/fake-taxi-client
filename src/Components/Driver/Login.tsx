@@ -9,7 +9,7 @@ import { addtoken } from "../../utils/Redux/Slice/tokenSlice";
 
 export default function Login() {
   const dispatch = useDispatch();
-  const navigator = useNavigate();
+  const navigate = useNavigate();
   const {
     register,
     formState: { errors },
@@ -20,16 +20,16 @@ export default function Login() {
       const response = await DriverLoginFn(data)
       console.log(response);
       if(response.status == 200){
+        alert("HIII")
         dispatch(clearDriver());
         dispatch(addDriver(response.data.driverDetails))
         dispatch(addtoken(response.data.accessToken))
-        navigator('/driver');
       }
     }catch(err){
       toast.error(err.response.data.errMessage);
     }
   }
-  return (
+  return ( 
     <div>
       <header className="bg-base-yellow p-3">
         <img src="/logo-main.webp" />

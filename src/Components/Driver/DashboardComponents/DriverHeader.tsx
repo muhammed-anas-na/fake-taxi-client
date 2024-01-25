@@ -1,20 +1,33 @@
-import {useState} from 'react'
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-interface StoreData{
-  token:{
-    token: string
-  }
-}
+import { useState } from "react";
+import { Switch } from "@material-tailwind/react";
+import io from 'socket.io-client';
+import { useSelector } from "react-redux";
 
+export const DriverHeader = () => {
 
-export default function Header(){
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const token = useSelector((store: StoreData)=>store.token.token);
-
-
+    const [live,setLive] = useState(false);
+    const socket = io('http://localhost:8003');
+    const {_id} = useSelector((store)=>store.driver.driverData);
+    console.log("LIVE =>",live)
+    let watchId;
+    if(live){
+       watchId = navigator.geolocation.watchPosition((position)=>{
+        console.log(position.coords.latitude)
+        const
+         {latitude , longitude} = position.coords
+        socket.emit('updateLocation', {latitude , longitude , _id});
+      })
+    }else{
+      console.log("Elsee")
+      socket.disconnect();
+      if(watchId){
+        navigator.geolocation.clearWatch(watchId);
+      }
+    }
+  
     return (
-      <div className="py-4 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+      <div className="pt-4 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 ">
         <div className="relative flex items-center justify-between">
           <a
             href="/"
@@ -49,7 +62,7 @@ export default function Header(){
                 title="Our product"
                 className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
               >
-                Contact us
+                Home
               </a>
             </li>
             <li>
@@ -59,7 +72,7 @@ export default function Header(){
                 title="Our product"
                 className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
               >
-                Career
+                About
               </a>
             </li>
             <li>
@@ -82,36 +95,20 @@ export default function Header(){
                 About us
               </a>
             </li>
-          </ul>
-          <ul className="flex items-center hidden space-x-8 lg:flex">
-            {
-              token?(
-                <li>
-                <Link to={'/profile'}>
-              <button
-                className="bg-blue-500 rounded-full inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 focus:shadow-outline focus:outline-none"
-                aria-label="Sign up"
-                title="Sign up"
-              >
-                Profile
-              </button>
-              </Link>
+            <li>
+            <Switch
+      id="custom-switch-component"
+      ripple={false}
+      className="h-full w-full checked:bg-[#2ec946]"
+      containerProps={{
+        className: "w-11 h-6",
+      }}
+      circleProps={{
+        className: "before:hidden left-0.5 border-none",
+      }}
+      onChange={()=>setLive(!live)}
+    />
             </li>
-              ):(
-                <li>
-                <Link to={'/signup'}>
-              <button
-                className="bg-blue-500 rounded-full inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 focus:shadow-outline focus:outline-none"
-                aria-label="Sign up"
-                title="Sign up"
-              >
-                Sign up
-              </button>
-              </Link>
-            </li>
-              )
-            }
-            
           </ul>
           <div className="lg:hidden">
             <button
@@ -225,13 +222,14 @@ export default function Header(){
                         </a>
                       </li>
                       <li>
-                        <button
-                          className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide  transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
+                        <a
+                          href="/"
+                          className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
                           aria-label="Sign up"
                           title="Sign up"
                         >
                           Sign up
-                        </button>
+                        </a>
                       </li>
                     </ul>
                   </nav>
@@ -241,5 +239,5 @@ export default function Header(){
           </div>
         </div>
       </div>
-    )
-}
+    );
+  };

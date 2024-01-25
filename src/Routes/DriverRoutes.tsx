@@ -4,7 +4,8 @@ import Signup from "../Components/Driver/Signup";
 import EnterVhDetails from "../Components/Driver/EnterVhDetails";
 import DriverHome from "../Components/Driver/DriverHome";
 import Otp from "../Components/Driver/Otp";
-import ProtectedAuth from "./ProtectAuth";
+import DriverProtectedAuth from "./DriverProtectedAuth";
+import DriverDashboard from "../Components/Driver/DriverDashboard";
 
 export default function DriverRoutes() {
   return (
@@ -13,21 +14,22 @@ export default function DriverRoutes() {
       <Route
         path="/login"
         element={
-          <ProtectedAuth>
+          <DriverProtectedAuth>
             <Login />
-          </ProtectedAuth>
+          </DriverProtectedAuth>
         }
       />
       <Route path="/signup" element={<Signup />} />
       <Route
         path="/otp"
         element={
-          <ProtectedAuth>
+          <DriverProtectedAuth>
             <Otp />
-          </ProtectedAuth>
+          </DriverProtectedAuth>
         }
       />
       <Route path="/vehicle_details" element={<EnterVhDetails />} />
+      <Route path="/dashboard" element={<DriverDashboard/>}/>
     </Routes>
   );
 }

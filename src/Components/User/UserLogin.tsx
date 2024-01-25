@@ -51,10 +51,10 @@ export default function UserLogin() {
   };
 
   return (
-    <div className="screen bg-bg-image h-svh">
+    <div className="screen bg-bg-image bg-no-repeat bg-cover h-svh">
       <ToastContainer />
       <div className="grid place-items-center">
-        <div className="h-auto w-96 bg-white rounded-2xl shadow-2xl mt-44 text-center">
+        <div className="h-auto w-5/6 sm:w-96 bg-white rounded-2xl shadow-2xl mt-60 sm:mt-44 text-center">
           <h1 className="font-bold mt-5 text-4xl">LOGIN</h1>
           <form method="post" onSubmit={handleSubmit(handleLogin)}>
             <div className="mt-8">

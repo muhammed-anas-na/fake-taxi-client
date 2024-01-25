@@ -7,6 +7,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Bookcab from "../Components/User/Bookcab";
 import Otp from "../Components/User/Otp";
 import ProtectedAuth from "./ProtectAuth";
+import FindCab from '../Components/User/FindCab';
 
 export default function DriverRoutes() {
   return (
@@ -48,6 +49,11 @@ export default function DriverRoutes() {
           //Protect this route
           <Bookcab />
         }
+      />
+
+      <Route
+        path="/findcab"
+        element={<FindCab/>}
       />
     </Routes>
   );

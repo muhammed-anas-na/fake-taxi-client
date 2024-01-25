@@ -7,7 +7,9 @@ export const SIGNUP_API = "http://localhost:8000/signup"
 export const GOOGLE_LOGIN_API="http://localhost:8000/google/auth"
 export const SEND_OTP_API = "http://localhost:8000/send-otp"; 
 export const SEARCH_LOCATION_API = "http://localhost:8000/search-location"
-
+//USER TO TRIP SERVICE
+export const FIND_CAB_API = "http://localhost:8003/find-cab"
+ 
 //DRIVER API
 export const DRIVER_SIGNUP_API = "http://localhost:8001/signup"
 export const DRIVER_LOGIN_API = "http://localhost:8001/login"
