@@ -21,9 +21,7 @@ interface storeData{
 export default function UserLogin() {
   const navigate = useNavigate();
   const token = useSelector((store: storeData)=>store.token.token)
-  console.log("Token =>" , token)
   if(token){
-    alert("HI")
     navigate('/')
   }
   const dispatch = useDispatch();
@@ -59,19 +57,16 @@ export default function UserLogin() {
           <form method="post" onSubmit={handleSubmit(handleLogin)}>
             <div className="mt-8">
               <input
-                {...register("email", {
-                  required: true,
-                  pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                })}
-                type="email"
+                {...register("number",  { required: true, pattern: /^\d{10}$/ })}
+                type="number"
                 className="border-l-2 text-lg mt-2 mb-2 text-gray-400"
-                placeholder="Email"
+                placeholder="Enter Number"
               />
-              {errors.email?.type == "required" && (
-                <p className="text-red-500 text-xs">Email is required</p>
+              {errors.number?.type == "required" && (
+                <p className="text-red-500 text-xs">Number is required</p>
               )}
-              {errors.email?.type == "pattern" && (
-                <p className="text-red-500 text-xs">Invalid Email</p>
+              {errors.number?.type == "pattern" && (
+                <p className="text-red-500 text-xs">Invalid Number</p>
               )}
               <br />
               <input

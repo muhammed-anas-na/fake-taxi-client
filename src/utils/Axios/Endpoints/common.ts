@@ -7,6 +7,7 @@ export const SIGNUP_API = "http://localhost:8000/signup"
 export const GOOGLE_LOGIN_API="http://localhost:8000/google/auth"
 export const SEND_OTP_API = "http://localhost:8000/send-otp"; 
 export const SEARCH_LOCATION_API = "http://localhost:8000/search-location"
+export const SEND_SMS_API = "http://localhost:8000/send-sms"
 //USER TO TRIP SERVICE
 export const FIND_CAB_API = "http://localhost:8003/find-cab"
  
@@ -15,6 +16,7 @@ export const DRIVER_SIGNUP_API = "http://localhost:8001/signup"
 export const DRIVER_LOGIN_API = "http://localhost:8001/login"
 export const DRIVER_SEND_OTP_API = "http://localhost:8001/send-otp"
 export const DRIVER_CHECK_OTP_API = "http://localhost:8001/check-otp"
+export const DRIVER_SEND_SMS_API = "http://localhost:8001/send-sms";
 
 //ADMIN API
 export const ADMIN_LOGIN_API = "http://localhost:8002/login"

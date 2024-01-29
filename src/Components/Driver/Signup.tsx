@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import { DriverSendOtpFn } from "../../utils/Axios/methods/POST";
+import { SendSmsDriver } from "../../utils/Axios/methods/POST";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -14,10 +14,17 @@ export default function Signup() {
   } = useForm();
 
   async function handleDriverSignup(data){
-    localStorage.setItem('driverDetails' ,JSON.stringify(data));
-    const response = await DriverSendOtpFn(data);
-    navigate('/driver/otp')
-  }
+    try{
+      const response = await SendSmsDriver(data);
+      if(response.status ==200){
+        localStorage.setItem('driverDetails' ,JSON.stringify(data));
+        navigate('/driver/otp');
+      }
+    }catch(err){ 
+      console.log("THis is error" , err);
+      toast.error(err.response.data.errMessage);
+    }
+  } 
 
   return (
     <div>
@@ -31,37 +38,20 @@ export default function Signup() {
           <form method="post" onSubmit={handleSubmit(handleDriverSignup)}>
             <div className="mt-8">
               <input
-                {...register("first_name", {
+                {...register("full_name", {
                   required: true,
                   pattern: /^[A-Z][a-zA-Z]{3,}$/,
                 })}
                 type="text"
                 className="border-l-2 text-lg mt-2 mb-2 text-gray-400"
-                placeholder="First Name"
+                placeholder="Full Name"
               />
-              {errors.first_name?.type == "required" && (
-                <p className="text-red-500 text-xs">First Name is required</p>
+              {errors.full_name?.type == "required" && (
+                <p className="text-red-500 text-xs">Full Name is required</p>
               )}
-              {errors.first_name?.type == "pattern" && (
-                <p className="text-red-500 text-xs">Invalid first name</p>
+              {errors.full_namee?.type == "pattern" && (
+                <p className="text-red-500 text-xs">Invalid Full name</p>
               )}
-              <br />
-              <input
-                {...register("last_name", {
-                  required: true,
-                  pattern: /^[A-Z][a-zA-Z]{3,}$/,
-                })}
-                type="text"
-                className="border-l-2 text-lg mt-2 mb-2 text-gray-400"
-                placeholder="Last Name"
-              />
-              {errors.last_name?.type == "required" && (
-                <p className="text-red-500 text-xs">Last Name is required</p>
-              )}
-              {errors.last_name?.type == "pattern" && (
-                <p className="text-red-500 text-xs">Invalid last name</p>
-              )}
-              <br />
               <input
                 {...register("email", {
                   required: true,

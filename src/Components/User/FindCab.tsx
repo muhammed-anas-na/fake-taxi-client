@@ -43,8 +43,10 @@ export default function FindCab() {
     
 
   } , [distance , duration])
-
+  
   const handleFindCab=async(num: number)=>{
+    const socket = io('http://localhost:8003');
+
     let category;
     let total_price;
     if(num == 1){
@@ -58,8 +60,9 @@ export default function FindCab() {
       total_price = suvPrice;
     }
     try{
-      const repsonse = await MatchDriver({category , total_price , from , to})
+      socket.emit('matchDriver' , {category , total_price , from ,to});
     }catch(err){
+      alert("Error");
       console.log(err);
     }
     //socket.emit("newTrip", { category , total_price , from , to });

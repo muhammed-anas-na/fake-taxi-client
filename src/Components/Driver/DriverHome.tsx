@@ -3,23 +3,38 @@ import { Link } from "react-router-dom";
 import animationData from "../../assets/Animations/driver-hero.json";
 import animationData2 from "../../assets/Animations/driver-hero2.json";
 import Card from "./Card";
+import { useSelector } from "react-redux";
+import io from 'socket.io-client';
 
 export default function DriverHome() {
+  const driverData = useSelector((store)=>store.driver.driverData)
+
+
   return (
     <>
       <section className="bg-driver-bg text-gray-100 h-svh py-24">
         <div className="container mx-auto flex flex-col items-center px-4 py-16 text-center md:py-32 md:px-10 lg:px-32 xl:max-w-3xl">
           <h1 className="text-4xl font-bold leadi sm:text-5xl">
             Drive when you want
-            <span className="text-base-yellow"> and make</span>what you need.
+            <span className="text-base-yellow"> and make</span> what you need.
           </h1>
           <p className="px-8 mt-8 mb-12 text-lg">Earn on your own schedule!</p>
           <div className="flex flex-wrap justify-center">
-            <Link to={"/driver/signup"}>
-              <button className="px-8 py-3 m-2 text-lg font-semibold rounded  bg-base-yellow text-gray-900 cursor-pointer">
-                Get started
-              </button>
-            </Link>
+            {
+              driverData.firstName ? (
+                <Link to={"/driver/dashboard"}>
+                <button className="px-8 py-3 m-2 text-lg font-semibold rounded  bg-base-yellow text-gray-900 cursor-pointer">
+                  Dashboard
+                </button>
+              </Link>
+              ) :(
+                <Link to={"/driver/signup"}>
+                <button className="px-8 py-3 m-2 text-lg font-semibold rounded  bg-base-yellow text-gray-900 cursor-pointer">
+                  Get started
+                </button>
+              </Link>
+              )
+            }
             <button className="px-8 py-3 m-2 text-lg border rounded  text-gray-50  border-gray-700">
               Learn more
             </button>

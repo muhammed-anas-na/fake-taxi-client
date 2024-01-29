@@ -26,12 +26,8 @@ export default function Dailyrides() {
   const [dropoffSuggestion, setDropofSuggestion] = useState([]);
 
   const [FormData, setFormData] = useState({
-    name: "",
-    number: "",
     pickup_location: "",
     dropoff_location: "",
-    pickup_id:"",
-    dropoff_id:"",
   });
   const debounce = (func) => {
     let timer: number | null;
@@ -73,7 +69,7 @@ export default function Dailyrides() {
 
   return (
       <div className="overflow-hidden">
-        <div className="flex flex-col items-center gap-3 mt-10 lg:flex-row">
+        {/* <div className="flex flex-col items-center gap-3 mt-10 lg:flex-row">
           <div className="w-72">
             <Input
               type="text"
@@ -105,12 +101,12 @@ export default function Dailyrides() {
               }
             />
           </div>
-        </div>
+        </div> */}
 
         <div className="flex flex-col items-center gap-3 mt-10 lg:flex-row">
           <div className="w-72">
             <Input
-              icon={<Fa name="rocket" />}
+              icon={<Fa className="cursor-pointer" name="rocket" />}
               type="text"
               name="pickup_location"
               variant="standard"
@@ -136,7 +132,6 @@ export default function Dailyrides() {
                         setFormData((prevData) => ({
                           ...prevData,
                           pickup_location: val.name,
-                          pickup_id: val.mapbox_id,
                         }));
                         setPickupSuggestion([]);
                       }}
@@ -177,7 +172,6 @@ export default function Dailyrides() {
                         setFormData((prevData) => ({
                           ...prevData,
                           dropoff_location: val.name,
-                          dropoff_id: val.mapbox_id,
                         }));
                         setDropofSuggestion([]);
                       }}
@@ -192,7 +186,7 @@ export default function Dailyrides() {
             )}
           </div>
         </div>
-        <div className="mt-5">
+        <div className="mt-5 md:mt-16">
           <Button color="blue" fullWidth onClick={handleFindCab}>
             FIND CAB
           </Button>

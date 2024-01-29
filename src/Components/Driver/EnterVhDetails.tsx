@@ -5,37 +5,37 @@ import { useDispatch } from "react-redux";
 import { addDriver } from "../../utils/Redux/Slice/DriverSlice";
 import { addtoken } from "../../utils/Redux/Slice/tokenSlice";
 import axios from "axios";
-import { CForm , CFormInput} from "@coreui/react"
-import '@coreui/coreui/dist/css/coreui.min.css'
+import { CForm, CFormInput } from "@coreui/react";
+import "@coreui/coreui/dist/css/coreui.min.css";
 import { useState } from "react";
+import { Input } from "@material-tailwind/react";
 
-interface responseData{
-  status: number,
-  data:{
-    newDriver: object,
-    accessToken: string
-
-  }
+interface responseData {
+  status: number;
+  data: {
+    newDriver: object;
+    accessToken: string;
+  };
 }
 
-interface ErrorData{
-  response:{
-    data:{
-      errMessage: string
-    }
-  }
+interface ErrorData {
+  response: {
+    data: {
+      errMessage: string;
+    };
+  };
 }
 
 export default function EnterVhDetails() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    vehicle_brand:'',
-    vehicle_name:'',
-    rc_number:'',
-    vehicle_category:''
+    vehicle_brand: "",
+    vehicle_name: "",
+    rc_number: "",
+    vehicle_category: "",
   });
-  const [validated, setValidated] = useState(false)
+  const [validated, setValidated] = useState(false);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -44,30 +44,31 @@ export default function EnterVhDetails() {
     });
   };
   const handleDriverSignup = async (event) => {
-
-    const form = event.currentTarget
+    const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault()
-      event.stopPropagation()
-      setValidated(true)
+      event.preventDefault();
+      event.stopPropagation();
+      setValidated(true);
       return;
     }
-    
+
     try {
       event.preventDefault();
       const driverDetails = JSON.parse(localStorage.getItem("driverDetails"));
       console.log(driverDetails);
-      const data = {...driverDetails , ...formData}
-      console.log(data)
+      const data = { ...driverDetails, ...formData };
+      console.log(data);
       const response: responseData = await DriverSignupFn(data);
-      if(response.status == 200){
+      if (response.status == 200) {
         dispatch(addDriver(response.data.newDriver));
         dispatch(addtoken(response.data.accessToken));
-        axios.defaults.headers.common['Authorization'] = `${response.data.accessToken}` 
-        navigate("/driver");
-        localStorage.removeItem('driverDetails')
-      }else{
-        toast.error("Invalid data")
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `${response.data.accessToken}`;
+        navigate("/driver/success");
+        localStorage.removeItem("driverDetails");
+      } else {
+        toast.error("Invalid data");
       }
     } catch (err: ErrorData) {
       console.log(err);
@@ -83,48 +84,42 @@ export default function EnterVhDetails() {
       <div className="grid place-items-center">
         <div className="h-auto w-96 bg-white rounded-2xl shadow-2xl mt-12 text-center p-4">
           <h1 className="font-bold mt-5 text-4xl">VECHILE DETAILS</h1>
-          <CForm
-          onSubmit={handleDriverSignup} 
-          noValidate
-          validated={validated}
-          >
-            <div className="mt-8">
-              
-              <CFormInput
+          <form onSubmit={handleDriverSignup} noValidate>
+            <div className="mt-8 flex flex-col gap-6">
+              <Input
+                className="py-11"
+                label="Vehicle Brand"
+                variant="standard"
                 type="text"
-                className="border-l-2 text-lg mt-2 mb-2 text-gray-400"
                 placeholder="Vehicle Brand"
                 name="vehicle_brand"
                 onChange={handleInputChange}
-                required
               />
-              <CFormInput
+              <Input
+                label="Vehicle Name"
+                variant="standard"
                 type="text"
-                className="border-l-2 text-lg mt-2 mb-2 text-gray-400"
                 placeholder="Vehicle Name"
                 name="vehicle_name"
                 onChange={handleInputChange}
-                required
-  
               />
- 
-              <CFormInput
+
+              <Input
+                label="RC Number"
+                variant="standard"
                 type="number"
-                className="border-l-2 text-lg mt-2 mb-2 text-gray-400"
                 placeholder="RC Number"
                 name="rc_number"
                 onChange={handleInputChange}
-                required
-              
               />
 
-              <CFormInput
+              <Input
+                label="Vehicle Category"
+                variant="standard"
                 type="text"
-                className="border-l-2 text-lg mt-2 mb-2 text-gray-400"
                 placeholder="Vehicle Category"
                 name="vehicle_category"
                 onChange={handleInputChange}
-                required
               />
             </div>
             <button
@@ -133,7 +128,7 @@ export default function EnterVhDetails() {
             >
               SIGNUP
             </button>
-          </CForm>
+          </form>
         </div>
       </div>
     </div>

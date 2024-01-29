@@ -6,6 +6,8 @@ import DriverHome from "../Components/Driver/DriverHome";
 import Otp from "../Components/Driver/Otp";
 import DriverProtectedAuth from "./DriverProtectedAuth";
 import DriverDashboard from "../Components/Driver/DriverDashboard";
+import DriverProtected from "./DriverProtected";
+import ThanksPage from "../Components/Driver/Thankyou";
 
 export default function DriverRoutes() {
   return (
@@ -29,7 +31,16 @@ export default function DriverRoutes() {
         }
       />
       <Route path="/vehicle_details" element={<EnterVhDetails />} />
-      <Route path="/dashboard" element={<DriverDashboard/>}/>
+      
+      <Route path="/dashboard" element={
+          <DriverDashboard/>
+      }/>
+      
+      <Route path="/success" element={
+        <ThanksPage/>
+      }/>
+
     </Routes>
+
   );
 }

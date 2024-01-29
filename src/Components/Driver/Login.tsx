@@ -41,15 +41,15 @@ export default function Login() {
           <form onSubmit={handleSubmit(handleDriverLogin)}>
             <div className="mt-8">
               <input
-                {...register("email", {
+                {...register("number", {
                   required: true,
                 })}
-                type="email"
+                type="number"
                 className="border-l-2 text-lg mt-2 mb-2 text-gray-400"
-                placeholder="Email"
+                placeholder="Registered Number"
               />
-              {errors.email?.type == "required" && (
-                <p className="text-red-500 text-xs">Email is required</p>
+              {errors.number?.type == "required" && (
+                <p className="text-red-500 text-xs">Number is required</p>
               )}
               <input
                 {...register("password", {

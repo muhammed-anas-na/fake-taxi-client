@@ -10,6 +10,8 @@ import { LOGIN_API ,
     DRIVER_CHECK_OTP_API,
     SEARCH_LOCATION_API,
     FIND_CAB_API,
+    SEND_SMS_API,
+    DRIVER_SEND_SMS_API,
 
 } from '../Endpoints/common';
 
@@ -54,6 +56,14 @@ export const SendOtpFn =  async(data: object)=>{
     }
 }
 
+export const SendSms = async(data: object)=>{
+    try{
+        return axiosInstance.post(SEND_SMS_API , data);
+    }catch(err){
+        return err;
+    }
+}
+
 
 export const SearchLocationFn = (data: string)=>{
     try{
@@ -73,16 +83,31 @@ export const findCabFn = (data: object)=>{
 
 export const MatchDriver = (data: object)=>{
     try{
-        axiosInstance.post('http:localhost:8003' , data);
+        return axiosInstance.post('http:localhost:8003' , data);
     }catch(err){
         return err;
     }
 }
 
+
+
+
+
+
+
+
 //DRIVER METHODS
 export const DriverSignupFn = async(data: object)=>{
     try{
         return axiosInstance.post(DRIVER_SIGNUP_API , data);
+    }catch(err){
+        return err;
+    }
+}
+
+export const SendSmsDriver = async(data: object)=>{
+    try{
+        return axiosInstance.post(DRIVER_SEND_SMS_API , data);
     }catch(err){
         return err;
     }
@@ -111,6 +136,11 @@ export const DriverCheckOtpFn = async(data:object)=>{
         return err;
     }
 }
+
+
+
+
+
 
 //ADMIN METHODS
 export const AdminLoginFn= async(data: object)=>{

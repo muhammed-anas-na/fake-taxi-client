@@ -2,8 +2,10 @@ import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect } from "react";
-import { SendOtpFn, DriverCheckOtpFn } from '../../utils/Axios/methods/POST';
+import { DriverCheckOtpFn, SendSmsDriver } from '../../utils/Axios/methods/POST';
 import { useNavigate } from "react-router-dom";
+import { Input } from "@material-tailwind/react";
+
 
 export default function Otp() {
   const navigate = useNavigate();
@@ -12,7 +14,7 @@ export default function Otp() {
   const [counter, setCounter] = useState(60);
 
   useEffect(() => {
-    toast.success("Email send succesfull" ,{
+    toast.success("Otp send succesfull" ,{
       position: toast.POSITION.TOP_CENTER,
       icon:"👍"
     })
@@ -32,15 +34,15 @@ export default function Otp() {
   const resnedOtp = async()=>{
     const userData = JSON.parse(localStorage.getItem('driverDetails'));
     const myPromise = new Promise((resolve)=>{
-        SendOtpFn(userData).then((response)=>{
+        SendSmsDriver(userData).then((response)=>{
           console.log("RESPONSE ====>",response)
           setCounter(60)
           resolve(response)
         })
     })
     toast.promise(myPromise, {
-      pending: "Resending email",
-      success: `Email send to ${userData.email}`,
+      pending: "Resending Otp",
+      success: `Otp send to ${userData.phone}`,
       error: "error",
     });
   }
@@ -48,7 +50,9 @@ export default function Otp() {
   const handleConfirmOtp =async(otp: object)=>{
     try{
       const response = await DriverCheckOtpFn(otp);
-      navigate('/driver/vehicle_details')
+      if(response.status == 200){
+        navigate('/driver/vehicle_details')
+      }
     }catch(err){
       toast.error(err.response.data.errMessage)
     }
@@ -62,6 +66,7 @@ export default function Otp() {
           <h1 className="font-bold mt-5 text-4xl">ENTER OTP</h1>
           <form method="post" onSubmit={handleSubmit(handleConfirmOtp)}>
             <div className="mt-8">
+
               <input
                 {...register("otp", {
                   required: true,

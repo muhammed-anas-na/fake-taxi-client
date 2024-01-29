@@ -3,7 +3,7 @@ import { Link , useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect } from "react";
-import { SignupFn , SendOtpFn } from '../../utils/Axios/methods/POST';
+import { SignupFn , SendOtpFn, SendSms } from '../../utils/Axios/methods/POST';
 import {useDispatch } from 'react-redux';
 import { addUser } from '../../utils/Redux/Slice/UserSlice';
 import { addtoken } from '../../utils/Redux/Slice/tokenSlice';
@@ -17,7 +17,7 @@ export default function Otp() {
   const [counter, setCounter] = useState(60);
 
   useEffect(() => {
-    toast.success("Email send succesfull" ,{
+    toast.success("Otp send succesfull" ,{
       position: toast.POSITION.TOP_CENTER,
       icon:"👍"
     })
@@ -37,7 +37,7 @@ export default function Otp() {
   const resnedOtp = async()=>{
     const userData = JSON.parse(localStorage.getItem('userData'));
     const myPromise = new Promise((resolve,reject)=>{
-        SendOtpFn(userData).then((response)=>{
+        SendSms(userData).then((response)=>{
           console.log("RESPONSE ====>",response)
           setCounter(60)
           resolve(response)
@@ -45,7 +45,7 @@ export default function Otp() {
     })
     toast.promise(myPromise, {
       pending: "Resending email",
-      success: `Email send to ${userData.email}`,
+      success: `Otp send to ${userData.phone}`,
       error: "error",
     });
   }

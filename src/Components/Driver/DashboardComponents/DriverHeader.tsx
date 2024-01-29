@@ -9,7 +9,7 @@ export const DriverHeader = () => {
     const [live,setLive] = useState(false);
     const socket = io('http://localhost:8003');
     const {_id} = useSelector((store)=>store.driver.driverData);
-    console.log("LIVE =>",live)
+
     let watchId;
     if(live){
        watchId = navigator.geolocation.watchPosition((position)=>{
@@ -17,6 +17,11 @@ export const DriverHeader = () => {
         const
          {latitude , longitude} = position.coords
         socket.emit('updateLocation', {latitude , longitude , _id});
+
+        socket.on('reqestToDriver' , (data)=>{
+          console.log("Requesting for a rideee ==>" , data)
+        })
+        
       })
     }else{
       console.log("Elsee")

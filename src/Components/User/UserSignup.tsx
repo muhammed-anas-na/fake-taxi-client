@@ -3,7 +3,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link , useNavigate} from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import './UserSIgnup.css';
-import { SendOtpFn } from '../../utils/Axios/methods/POST';
+import { SendSms } from '../../utils/Axios/methods/POST';
 import { useState } from 'react';
 import Lottie from 'lottie-react';
 import animationData from "../../assets/Animations/car-loading.json";
@@ -19,19 +19,9 @@ export default function UserSignup() {
 
   const handleSignup=async(data)=>{
     setClicked(true);
-    // try{
-    //     const response = await SignupFn(data);
-    //     if(response.data.accessToken){
-    //       dispatch(addUser(response.data.newUser));
-    //       dispatch(addtoken(response.data.accessToken));
-    //       axios.defaults.headers.common['Authorization'] = `${response.data.accessToken}`
-    //       navigate('/otp');
-    //     }
-    // }catch(err){
-    //   toast.error(err.response.data.errMessage)
-    // }
     try{
-        let response = await SendOtpFn(data)
+        const response = await SendSms(data)
+        console.log(response);
         localStorage.setItem('userData' , JSON.stringify(data));
         navigate('/otp')
     }catch(err){
@@ -50,35 +40,19 @@ export default function UserSignup() {
           <form method="post" onSubmit={handleSubmit(handleSignup)}>
             <div className="mt-8">
               <input
-                {...register("first_name", {
+                {...register("full_name", {
                   required: true,
                   pattern: /^[A-Z][a-zA-Z]{3,}$/,
                 })}
                 type="text"
                 className="border-l-2 text-lg mt-2 mb-2 text-gray-400"
-                placeholder="First Name"
+                placeholder="Full Name"
               />
-              {errors.first_name?.type == "required" && (
-                <p className="text-red-500 text-xs">First Name is required</p>
+              {errors.full_name?.type == "required" && (
+                <p className="text-red-500 text-xs">Full Name is required</p>
               )}
-              {errors.first_name?.type == "pattern" && (
-                <p className="text-red-500 text-xs">Invalid first name</p>
-              )}
-              <br />
-              <input
-                {...register("last_name", {
-                  required: true,
-                  pattern: /^[A-Z][a-zA-Z]{3,}$/,
-                })}
-                type="text"
-                className="border-l-2 text-lg mt-2 mb-2 text-gray-400"
-                placeholder="Last Name"
-              />
-              {errors.last_name?.type == "required" && (
-                <p className="text-red-500 text-xs">Last Name is required</p>
-              )}
-              {errors.last_name?.type == "pattern" && (
-                <p className="text-red-500 text-xs">Invalid last name</p>
+              {errors.full_name?.type == "pattern" && (
+                <p className="text-red-500 text-xs">Invalid full name</p>
               )}
               <br />
               <input

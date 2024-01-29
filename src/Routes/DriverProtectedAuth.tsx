@@ -14,7 +14,6 @@ const DriverProtectedAuth = ({children}:{children:any}) => {
       return <Navigate to="/driver/dashboard"/>
   }
 return children
-
 };
 
 
