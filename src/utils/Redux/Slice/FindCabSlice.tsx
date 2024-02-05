@@ -12,8 +12,11 @@ const FindCabSlice = createSlice({
         clearFindCab:(state)=>{
             state.findcabData={}
         },
+        updateStatus:(state,action)=>{
+            state.findcabData= {...state.findcabData , status:action.payload}
+        }
     }
 
 })
-export const { addFindCab,clearFindCab} = FindCabSlice.actions
+export const { addFindCab,clearFindCab,updateStatus} = FindCabSlice.actions
 export default FindCabSlice.reducer;

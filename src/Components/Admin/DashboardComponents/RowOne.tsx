@@ -1,46 +1,22 @@
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { useRef, useEffect, useState } from 'react';
-import socket from '../Socket';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { addFindCab } from '../../../utils/Redux/Slice/FindCabSlice';
+import { useRef, useEffect } from 'react';
 
 export default function RowOne() {
 
   mapboxgl.accessToken = 'pk.eyJ1IjoiYW5hcy1uYSIsImEiOiJjbHJoaGdydm0wYzd1Mml1Zzk2NGNodGJnIn0.lOyOTcDht4tPvLSjvf_yxQ';
   
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(0);
-  const [lat, setLat] = useState(0);
-  const [zoom, setZoom] = useState(15);
-  const [request , setRequest] = useState([])
-
-  socket.on('reqestToDriver', (data) => { 
-    console.log("Requesting for ridee==>",data)
-    setRequest(() => [data]);
-  });
   
-  const handleRequest=(message: string)=>{
-    socket.emit('successRide' , {request,message});
-    socket.on('tripCreated' , (data)=>{
-      setRequest([])
-      dispatch(addFindCab(data));
-      navigate(`/driver/trip/${data.tripData._id}`)
-    })
-  }
-
   useEffect(() => {
+
    if (!map.current) {
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: 'mapbox://styles/mapbox/streets-v12',
-        center: [lng, lat],
-        zoom: zoom,
+        center: [0, 0],
+        zoom: 15,
       });
 
       map.current.addControl(new mapboxgl.GeolocateControl({
@@ -51,9 +27,12 @@ export default function RowOne() {
         showUserHeading: true
         }));
     } else {
-      map.current.setCenter([lng, lat]);
+      map.current.setCenter([0, 0]);
     }
-  } , [lat, lng, zoom]);
+
+
+
+  } , []);
 
   return (
     <>
@@ -127,28 +106,7 @@ export default function RowOne() {
       </div>
       <div className='flex  mt-5 gap-3'>
         <div ref={mapContainer} className="map-container md:w-3/4 md:h-80"/>
-        <div>{request.length == 0 ? "Not Recieved" : (
-        request.map((value,index)=>{
-          return(
-            <div className='bg-white shadow-2xl md:w-64 p-3'>
-              <p>From :{value.from}</p>
-              <p>To : {value.to}</p>
-              <p>Fare: {value.total_price}</p>
-              <div className='flex gap-2'>
-                <button
-                onClick={()=>handleRequest('accept')} 
-                className='bg-green-700 text-white p-2 rounded-full'>Accept</button>
-                <button 
-                onClick={()=>{
-                  handleRequest('reject')
-                  setRequest([]);
-                }}
-                className='bg-red-900 text-white p-2 rounded-full'>Decline</button>
-              </div>
-            </div>
-          )
-        })
-        )}</div>
+        <div>Not recieved</div>
       </div>
         
     </section>

@@ -8,6 +8,8 @@ import Bookcab from "../Components/User/Bookcab";
 import Otp from "../Components/User/Otp";
 import ProtectedAuth from "./ProtectAuth";
 import FindCab from '../Components/User/FindCab';
+import SelectPayment from "../Components/User/SelectPayment";
+import TripPage from "../Components/User/TripPage";
 
 export default function DriverRoutes() {
   return (
@@ -55,6 +57,17 @@ export default function DriverRoutes() {
         path="/findcab"
         element={<FindCab/>}
       />
+
+        <Route
+          path="/payment-select/:tripId"
+          element={<SelectPayment/>}
+
+        />
+
+      <Route
+        path="/trip/:tripId"
+        element={<TripPage/>}
+        />
     </Routes>
   );
 }

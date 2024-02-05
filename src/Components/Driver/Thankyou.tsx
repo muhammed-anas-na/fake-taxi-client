@@ -1,12 +1,15 @@
+import { Link } from "react-router-dom";
 export default function ThanksPage() {
   return (
 <section className="px-4 py-32 mx-auto max-w-7xl">
   <div className="w-full mx-auto text-left md:w-11/12 xl:w-8/12 md:text-center">
     <h1 className="mb-3 text-4xl font-bold text-gray-900 md:text-5xl md:leading-tight md:font-extrabold">Thank's for registering.</h1>
     <p className="mb-6 text-lg text-gray-500 md:text-xl md:leading-normal">
-      We’re on a mission to bring transparency to finance. We charge as little as possible, and we always show you upfront. No hidden fees. No bad exchange rates. No surprises.
+     Our team will reach out throught E-mail when the verification completes.
     </p>
+    <Link to={'/driver'}>
       <button className="md:my-20 w-full col-auto btn btn-primary btn-lg lg:col-span-2" type="submit">Home</button>
+    </Link>
     <div className="flex flex-col justify-start mb-3 space-x-0 space-y-2 text-xs text-gray-600 md:flex-row md:justify-center md:space-x-8 md:space-y-0">
       <div className="flex items-center">
         <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 mr-1 text-green-600">

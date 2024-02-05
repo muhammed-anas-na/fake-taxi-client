@@ -22,7 +22,7 @@ export default function Header(){
             title="Company"
             className="inline-flex items-center"
           >
-            {/* <svg
+            <svg
               className="w-8 text-deep-purple-accent-400"
               viewBox="0 0 24 24"
               strokeLinejoin="round"
@@ -36,48 +36,63 @@ export default function Header(){
               <rect x="3" y="17" width="7" height="6" />
               <rect x="14" y="1" width="7" height="6" />
               <rect x="14" y="11" width="7" height="12" />
-            </svg> */}
+            </svg>
             <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
-              <img src='/logo.png' className='md:w-32 -rotate-12'/>
+              Fake taxi
+              {/* <img src='/logo.png' className='md:w-32 -rotate-12'/> */}
             </span>
           </a>
           <ul className="flex items-center hidden space-x-8 lg:flex">
-            <li>
+            <li className='group'>
               <a
                 href="/"
                 aria-label="Our product"
                 title="Our product"
-                className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                className="font-medium tracking-wide text-gray-700
+                bg-left-bottom bg-gradient-to-r from-blue-500 to-blue-500 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
               >
                 Contact us
               </a>
             </li>
-            <li>
+            {/* <div className="p-20"> 
+  <a className='group' href='#'> 
+    <span className='bg-left-bottom bg-gradient-to-r from-blue-500 to-blue-500 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out'> 
+      This text gets underlined on hover from left 
+    </span> 
+  </a> 
+</div> */}
+            <li className='group'>
               <a
                 href="/"
                 aria-label="Our product"
                 title="Our product"
-                className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                className="font-medium tracking-wide text-gray-700
+                bg-left-bottom bg-gradient-to-r from-blue-500 to-blue-500 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
+
               >
                 Career
               </a>
             </li>
-            <li>
+            <li className='group'>
               <a
                 href="/"
                 aria-label="Product pricing"
                 title="Product pricing"
-                className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                className="font-medium tracking-wide text-gray-700
+                bg-left-bottom bg-gradient-to-r from-blue-500 to-blue-500 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
+
               >
                 Pricing
               </a>
             </li>
-            <li>
+            <li className='group'>
               <a
                 href="/"
                 aria-label="About us"
                 title="About us"
-                className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                className="font-medium tracking-wide text-gray-700
+                bg-left-bottom bg-gradient-to-r from-blue-500 to-blue-500 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
+
               >
                 About us
               </a>

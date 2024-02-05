@@ -12,6 +12,12 @@ import { LOGIN_API ,
     FIND_CAB_API,
     SEND_SMS_API,
     DRIVER_SEND_SMS_API,
+    GET_DRIVER_DETAILS_API,
+    GET_USER_DETAILS_API,
+    GET_COORDINATES_API,
+    GET_TRIP_DATA_API,
+    GET_LIVE_DRIVERS_API,
+    STRIPE_API,
 
 } from '../Endpoints/common';
 
@@ -81,22 +87,57 @@ export const findCabFn = (data: object)=>{
     }
 }
 
-export const MatchDriver = (data: object)=>{
+
+
+export const GetUserDetails = (Id: string)=>{
     try{
-        return axiosInstance.post('http:localhost:8003' , data);
+        return axiosInstance.post(GET_USER_DETAILS_API , {Id})
     }catch(err){
         return err;
     }
 }
 
+export const getCoordinatesFn = (data: string)=>{
+    try{
+        return axiosInstance.post(GET_COORDINATES_API , {data})
+    }catch(err){
+        return err;
+    }
+}
 
+export const GetTripDataFn = ()=>{
+    try{
+        return axiosInstance.post(GET_TRIP_DATA_API)
+    }catch(err){
+        return err;
+    }
+}
 
-
-
-
-
+export const GetLiveDrivers =()=>{
+    try{
+        return axiosInstance.post(GET_LIVE_DRIVERS_API);
+    }catch(err){
+        return err;
+    }
+}
+export const StripeCheckoutFn = (data: object)=>{
+    try{
+        return axiosInstance.post(STRIPE_API , data)
+    }catch(err){
+        return err;
+    }
+}
 
 //DRIVER METHODS
+
+export const GetDriverDetails = (Id: string)=>{
+    try{
+        console.log("Getting driver data...." , Id);
+        return axiosInstance.post(GET_DRIVER_DETAILS_API , {Id})
+    }catch(err){
+        return err;
+    }
+}
 export const DriverSignupFn = async(data: object)=>{
     try{
         return axiosInstance.post(DRIVER_SIGNUP_API , data);

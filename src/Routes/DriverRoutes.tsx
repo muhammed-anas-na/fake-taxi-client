@@ -8,6 +8,7 @@ import DriverProtectedAuth from "./DriverProtectedAuth";
 import DriverDashboard from "../Components/Driver/DriverDashboard";
 import DriverProtected from "./DriverProtected";
 import ThanksPage from "../Components/Driver/Thankyou";
+import TripPage from "../Components/Driver/TripPage";
 
 export default function DriverRoutes() {
   return (
@@ -40,6 +41,7 @@ export default function DriverRoutes() {
         <ThanksPage/>
       }/>
 
+      <Route path="/trip/:tripId" element={<TripPage/>}/>
     </Routes>
 
   );

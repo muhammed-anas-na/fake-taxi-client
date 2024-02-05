@@ -2,11 +2,24 @@ import Fa from "react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect , useState } from "react";
-import io from 'socket.io-client';
+import MapContainer from './MapContainer';
+
+import socket from "../Driver/Socket";
+
+import { useDispatch } from "react-redux";
+import { addFindCab, clearFindCab } from "../../utils/Redux/Slice/FindCabSlice";
+
+import { toast , ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 export default function FindCab() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const {distance , duration , from ,to} = useSelector((store)=> store.findcab.findcabData);
+  const userData = useSelector((store)=>store.user.userData);
+  const userId = userData._id
   const [bikePrice , setbikePrice] = useState(0)
   const [hashbackPrice , sethashbackPrice] = useState(0);
   const [suvPrice , setsuvPrice] = useState(0);
@@ -41,11 +54,24 @@ export default function FindCab() {
     sethashbackPrice(TOTAL_HASHBACK_FARE);
     setsuvPrice(TOTAL_SUV_FARE);
     
+    socket.on('ride-reject',()=>{
+      toast("Driver rejected yout ride.Try again.")
+    })
+    socket.on('Nomatch-driver' , ()=>{
+      toast("No driver avalible");
+    })
+
+
+
+    return(()=>{
+      socket.off('ride-reject')
+      socket.off('Nomatch-driver')
+    })
 
   } , [distance , duration])
   
   const handleFindCab=async(num: number)=>{
-    const socket = io('http://localhost:8003');
+    //const socket = io('http://localhost:8003');
 
     let category;
     let total_price;
@@ -60,32 +86,40 @@ export default function FindCab() {
       total_price = suvPrice;
     }
     try{
-      socket.emit('matchDriver' , {category , total_price , from ,to});
+      socket.emit('matchDriver' , {category , total_price , from ,to , userId });
+
+      socket.on('successResponseFromDriver' , (data)=>{
+        console.log("Trip created ==> ",data);
+        dispatch(clearFindCab())
+        dispatch(addFindCab(data));
+        navigate(`/payment-select/${data.tripData._id}`)
+      })
     }catch(err){
       alert("Error");
       console.log(err);
     }
-    //socket.emit("newTrip", { category , total_price , from , to });
-
   }
 
   return (
     <div className="bg-hero h-screen bg-no-repeat">
+      <ToastContainer/>
       <Fa
         onClick={() => navigate(-1)}
         name="arrow-left"
         className="px-4 py-3 cursor-pointer text-2xl"
       />
       <section className="relative flex w-full">
-        <div className="relative w-full px-5 py-24 mx-auto max-w-7xl md:px-12">
+        <div className="relative w-full px-5 mx-auto max-w-7xl md:px-12">
           <div className="relative flex-col">
             <h1 className="text-2xl font-semibold md:text-3xl pb-0">
               Search for cab
             </h1>
             <div className="grid grid-cols-1 gap-6 lg:gap-24 lg:grid-cols-2">
               <div>
+            <MapContainer from={from} to={to}/>
+            <div className="md:mt-4 h-40 overflow-y-auto overflow-x-hidden">
                 <div onClick={()=>handleFindCab(1)}
-                className="flex hover:translate-x-3 duration-500 items-center gap-5 bg-white shadow-2xl p-3 rounded-lg cursor-pointer mt-4">
+                className="flex hover:translate-x-3 duration-500 items-center gap-5 bg-white shadow-2xl p-2 rounded-lg cursor-pointer mt-4">
                   <img
                     alt="hero"
                     className="object-cover  object-center w-20 drop-shadow-xl m-0 rounded-2xl"
@@ -102,7 +136,7 @@ export default function FindCab() {
                 </div>
 
                 <div onClick={()=>handleFindCab(2)}
-                className="flex hover:translate-x-3 duration-500 items-center gap-5 bg-white shadow-2xl p-3 rounded-lg cursor-pointer mt-4">
+                className="flex hover:translate-x-3 duration-500 items-center gap-5 bg-white shadow-2xl p-2 rounded-lg cursor-pointer mt-4">
                   <img
                     alt="hero"
                     className="object-cover  object-center w-20 drop-shadow-xl m-0 rounded-2xl"
@@ -117,10 +151,11 @@ export default function FindCab() {
                     />
                   </div>
                 </div>
+                
 
 
                 <div onClick={()=>handleFindCab(3)}
-                className="flex hover:translate-x-3 duration-500 items-center gap-5 bg-white shadow-2xl p-3 rounded-lg cursor-pointer mt-4">
+                className="flex hover:translate-x-3 duration-500 items-center gap-5 bg-white shadow-2xl p-2 rounded-lg cursor-pointer mt-4">
                   <img
                     alt="hero"
                     className="object-cover  object-center w-20 drop-shadow-xl m-0 rounded-2xl"
@@ -138,7 +173,7 @@ export default function FindCab() {
 
                   </div>
                 </div>
-
+                </div>
               </div>
 
               

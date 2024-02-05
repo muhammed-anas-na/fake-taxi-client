@@ -1,31 +1,10 @@
-import { useState , useEffect } from "react";
-import { Switch } from "@material-tailwind/react";
-import io from 'socket.io-client';
-import { useSelector } from "react-redux";
-import socket from "../Socket";
+import { Badge } from "@material-tailwind/react";
+import { useState } from "react";
+import Fa from 'react-fontawesome'
 
-export const DriverHeader = () => {
+export default function AdminHeader(){
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [live,setLive] = useState(false);
-    //const socket = io('http://localhost:8003');
-    const {_id , vehicle_details} = useSelector((store)=>store.driver.driverData);
-    let watchId
-    if(live){
-      console.log("I am online");
-        watchId = navigator.geolocation.watchPosition((position)=>{
-         const {latitude , longitude} = position.coords
-         socket.emit('updateLocation', {latitude , longitude , _id , vehicle_details});
-      })
-    }else{  
-      console.log("I am offline")
-      socket.emit('update-live-status' , ({status:false , _id}))
-      if(watchId){
-        console.log("Disconnecting....")
-        socket.disconnect();
-        navigator.geolocation.clearWatch(watchId);
-      }
-    }
   
     return (
       <div className="pt-4 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 ">
@@ -77,14 +56,7 @@ export const DriverHeader = () => {
               </a>
             </li>
             <li>
-              <a
-                href="/"
-                aria-label="Product pricing"
-                title="Product pricing"
-                className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-              >
-                Pricing
-              </a>
+
             </li>
             <li>
               <a
@@ -96,20 +68,27 @@ export const DriverHeader = () => {
                 About us
               </a>
             </li>
+
             <li>
-            <Switch
-      id="custom-switch-component"
-      ripple={false}
-      className="h-full w-full checked:bg-[#2ec946]"
-      containerProps={{
-        className: "w-11 h-6",
-      }}
-      circleProps={{
-        className: "before:hidden left-0.5 border-none",
-      }}
-      onChange={()=>setLive(!live)}
-    />
+              <Badge content="3" className="p-0">
+                <Fa name="bell" className="text-xl"/>
+              </Badge>
             </li>
+            <li>
+              <Fa name="comment"/>
+            </li>
+            
+            <li>
+              <a
+                href="/"
+                aria-label="About us"
+                title="About us"
+                className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+              >
+                Account
+              </a>
+            </li>
+
           </ul>
           <div className="lg:hidden">
             <button
@@ -241,4 +220,4 @@ export const DriverHeader = () => {
         </div>
       </div>
     );
-  };
+  }

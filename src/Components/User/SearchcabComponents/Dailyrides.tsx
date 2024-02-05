@@ -29,6 +29,7 @@ export default function Dailyrides() {
     pickup_location: "",
     dropoff_location: "",
   });
+  
   const debounce = (func) => {
     let timer: number | null;
     return function (...args) {
