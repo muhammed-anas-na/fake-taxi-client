@@ -13,7 +13,10 @@ export const SEND_SMS_API = "http://localhost:8000/send-sms"
 export const FIND_CAB_API = "http://localhost:8003/find-cab"
 export const GET_COORDINATES_API = "http://localhost:8003/get-coordinates"
 export const GET_LIVE_DRIVERS_API = "http://localhost:8003/get-live-drivers"
-export const STRIPE_API = 'http://localhost:8003/create-stripe-session'
+export const STRIPE_API = 'http://localhost:8004/create-stripe-session'
+export const FINISH_TRIP_API = 'http://localhost:8003/finish-trip'
+export const GET_ALL_TRIPS_OF_USER = "http://localhost:8003/get-all-trips-of-user"
+export const GET_CURRENT_LOCATION = "http://localhost:8003/get-current-location"
 
 //FETCH DRIVER DETAILS WITH ID
 export const GET_DRIVER_DETAILS_API = "http://localhost:8001/get-driver-details"

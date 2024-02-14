@@ -1,73 +1,112 @@
-import {useState , lazy , Suspense} from 'react';
+import { useState, lazy, Suspense, useEffect } from "react";
+import { Avatar, Button } from "@material-tailwind/react";
+import { Card, Typography } from "@material-tailwind/react";
+import { GetAllTripsOfUserFn } from "../../utils/Axios/methods/POST";
+import { useSelector } from "react-redux";
 
-const Tripspage = lazy(()=> import('./ProfileComponents/TripsPage'))
-const Rewardspage = lazy(()=> import('./ProfileComponents/RewardPage'))
-const Walletpage = lazy(()=> import('./ProfileComponents/WalletPage'));
-const Settingspage = lazy(()=>import('./ProfileComponents/Settings'))
-const Profilepage  = lazy(()=>import('./ProfileComponents/ProfilePage'))
+const Tripspage = lazy(() => import("./ProfileComponents/TripsPage"));
+const Rewardspage = lazy(() => import("./ProfileComponents/RewardPage"));
+const Walletpage = lazy(() => import("./ProfileComponents/WalletPage"));
+const Settingspage = lazy(() => import("./ProfileComponents/Settings"));
+const Profilepage = lazy(() => import("./ProfileComponents/ProfilePage"));
 
+export default function UserProfile() {
+  const [open, setOpen] = useState(true);
+  const [current, setCurrent] = useState("personal");
+  const [tripDetails ,setTripDetails] = useState([]);
+  const userData = useSelector((store)=>store.user.userData);
 
-export default function UserProfile(){
+  useEffect(()=>{
+    const fetchTripDetails=async()=>{
+      try{
+        const tripDetailsResponse = await GetAllTripsOfUserFn(userData._id);
+        setTripDetails(tripDetailsResponse.data);
+      }catch(err){
+        console.log(err);
+      }
+    }
+    fetchTripDetails()
+  },[])
+  return (
+    
 
-    const [open,setOpen] = useState(true)
-    const [current,setCurrent] = useState("profile")
-
-
-    return(
-        <div className='flex'>
-            <div className={`${open? "w-72":"w-20"} h-screen bg-base-yellow relative p-5 pt-8 duration-500 `}>
-                <img
-                className={`absolute cursor-pointer rounded-full -right-3 top-9 w-8 ${!open && "rotate-180"}`}
-                onClick={()=>{setOpen(!open)}}
-                src={'/control.png'} alt="close" width={120} height={40}/>
-
-                <div className='flex gap-x-4 items-center'>
-                <img
-                className={`cursor-pointer rounded-full -right-3 top-9 w-13`}
-                onClick={()=>{setOpen(!open)}}
-                src={'/logo-main.webp'} alt="close" width={120} height={40}/>
-
-                </div>
-
-                <ul className='pt-10'>
-                    <li className={`text-black text-sm gap-x-4 cursor-pointer hover:bg-gray-200 rounded-md flex items-center p-3`} onClick={()=>{setCurrent("profile")}}>
-                        <img className={`w-9`} src={'/user.png'} alt='user' height={20} width={30}/>
-                        <span className={`${!open &&  'hidden'} origin-left duration-300`}>Profile</span>
-                    </li>
-
-                    <li className={`text-black text-sm gap-x-4 cursor-pointer hover:bg-gray-200 rounded-md flex items-center p-3`} onClick={()=>{setCurrent("trips")}}>
-                        <img className='w-9' src={'/route.png'} alt='user' height={20} width={30}/>
-                        <span className={`${!open &&  'hidden'} origin-left duration-300`}>Trips</span>
-                    </li>
-
-                    <li className={`text-black text-sm gap-x-4 cursor-pointer hover:bg-gray-200 rounded-md flex items-center p-3`} onClick={()=>{setCurrent("rewards")}}>
-                        <img className='w-9' src={'/badge.png'} alt='user' height={20} width={30}/>
-                        <span className={`${!open &&  'hidden'} origin-left duration-300`}>Rewards</span>
-                    </li>
-
-                    <li className={`text-black text-sm gap-x-4 cursor-pointer hover:bg-gray-200 rounded-md flex items-center p-3`} onClick={()=>{setCurrent("wallet")}}>
-                        <img className='w-9' src={'/wallet.png'} alt='user' height={20} width={30}/>
-                        <span className={`${!open &&  'hidden'} origin-left duration-300`}>Wallet</span>
-                    </li>
-
-                    <li className={`text-black text-sm gap-x-4 cursor-pointer hover:bg-gray-200 rounded-md flex items-center p-3`} onClick={()=>{setCurrent("settings")}}>
-                        <img className='w-9' src={'/setting.png'} alt='user' height={20} width={30}/>
-                        <span className={`${!open &&  'hidden'} origin-left duration-300`}>Settings</span>
-                    </li>
-
-                </ul>
-
-            </div>
-
-            <div className='p-10'>
-                <Suspense fallback={<h1>Lodaing...</h1>}>
-                    {current == 'profile'?<Profilepage/>:""}
-                    {current == 'trips'?<Tripspage/>:""}
-                    {current == 'rewards'?<Rewardspage/>:""}
-                    {current == 'wallet'?<Walletpage/>:""}
-                    {current == 'settings'?<Settingspage/>:""}
-                </Suspense>
-            </div>
+    <div className="sm:flex sm:p-5">
+      <div>
+        <div className="flex justify-center mt-5">
+          <div>
+            <Avatar
+              src="https://docs.material-tailwind.com/img/face-2.jpg"
+              alt="avatar"
+              size="xl"
+            />
+            <h1 className="text-center">Anas</h1>
+          </div>
         </div>
-    )
+
+        <div className="flex justify-around mt-3 sm:gap-3">
+          <div className="flex-col items-center text-center">
+            <h1 className="font-bold">53</h1>
+            <p className="text-xs">Trip completed</p>
+          </div>
+          <div className="flex-col items-center text-center">
+            <h1 className="font-bold">53</h1>
+            <p className="text-xs">Total Km's</p>
+          </div>
+          <div className="flex-col items-center text-center">
+            <h1 className="font-bold">53</h1>
+            <p className="text-xs">Trip completed</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="sm:flex-col  md:ml-20 lg:gap-10">
+        <div className="flex overflow-x-auto scrollbar-hide gap-3 mt-3">
+          <h1 onClick={() => setCurrent("personal")}>Personal</h1>
+          <h1 onClick={() => setCurrent("trips")}>Trips</h1>
+          <h1>Rewards</h1>
+          <h1>Wallet</h1>
+          <h1>Settings</h1>
+        </div>
+
+        {current == "personal" ? (
+          <div className="mt-5 ml-3">
+            <h1>Email : anasna6005@gmail.com</h1>
+            <h1>Phone : 8089568695</h1>
+            <Button color="red" className="p-2 mt-[20vh]">
+              Logout
+            </Button>
+          </div>
+        ) : (
+          ""
+        )}
+
+{current == "trips" ? (
+        <div className="mt-5 lg:w-96">
+          <div className="flex justify-around p-2 border">
+            <h1 className="font-bold">No</h1>
+            <h1 className="font-bold">From</h1>
+            <h1 className="font-bold">To</h1>
+            <h1 className="font-bold">Fare</h1>
+          </div>
+        {
+          tripDetails.map((value , index)=>{
+            return(
+              <div  className="flex justify-around bg-blue-gray-50 p-2 shadow-xl">
+              <h1>{index+1}</h1>
+              <h1>{value.pickup_location}</h1>
+              <h1>{value.dropoff_location}</h1>
+              <h1>{value.fare}</h1>
+            </div>
+            )
+          })
+        }
+        </div>
+      ) : (
+        ""
+      )}
+      </div>
+
+      
+    </div>
+  );
 }

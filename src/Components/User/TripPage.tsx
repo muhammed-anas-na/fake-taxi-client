@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
 import socket from "../Driver/Socket";
-import { addFindCab, clearFindCab } from "../../utils/Redux/Slice/FindCabSlice";
+import { addFindCab, clearFindCab, updateStatus } from "../../utils/Redux/Slice/FindCabSlice";
 import MapComponent from "./MapContainer";
 import { Select, Option, Button } from "@material-tailwind/react";
 import { toast,ToastContainer } from "react-toastify";
@@ -14,13 +14,14 @@ import {GetDriverDetails, StripeCheckoutFn} from '../../utils/Axios/methods/POST
 import { Avatar, Typography } from "@material-tailwind/react";
 import { getCoordinatesFn } from "../../utils/Axios/methods/POST";
 import {loadStripe} from '@stripe/stripe-js';
-
+import Chat from "./Chat";
 
 export default function TripPage() {
   const [driverDetails , setDriverDetails] = useState();
   const [driverLocation , setDriverLocation] = useState();
   const tripData = useSelector((store) => store.findcab.findcabData);
-
+  const [destination , setDestination] = useState()
+  const dispatch = useDispatch();
 
   socket.on('LiveLocationFromDriver' , (data)=>{
     console.log("Driver live location" , data)
@@ -33,7 +34,7 @@ export default function TripPage() {
         setDriverDetails(response.data);
 
         const pickup_coordinates = await getCoordinatesFn(tripData.tripData.pickup_location)
-        console.log("Pickup Coordinatess ==> ",pickup_coordinates)
+        setDestination(pickup_coordinates.data);
       } catch (error) {
         console.error("Error fetching driver details:", error);
       }
@@ -46,20 +47,24 @@ export default function TripPage() {
     socket.on('reached-pickup' , ()=>{
       toast("We reached at the pickup location")
     })
-    socket.on('pickedup',()=>{
+    socket.on('pickedup',(pickup_time)=>{
+      dispatch(addFindCab(pickup_time));
       toast("You are safe in our hands")
     })
-    socket.on('desitination-reached' ,async ()=>{
+    socket.on('desitination-reached' ,async (dropoff_time)=>{
+      dispatch(addFindCab(dropoff_time))
+      dispatch(updateStatus("trip-completed"))
       toast("Reached Destination")
-      if(tripData.payment == 'payAtArrival'){
+      if(tripData.payment == 'stripe'){
         const stripe =await  loadStripe('pk_test_51Ofb7lSDYoKc4bOt3tO0icPQcW1q1IBBZu4p35fc8mvSMr3mxachNi1SefUUkrQQ98ObCcQ9iWdXokr755TBYEWR00mV7N2ItI')
         const response = await StripeCheckoutFn(tripData);
         console.log("Response from stripe ==>",response)
-        const session = response.json()
         const result = stripe?.redirectToCheckout({
-          sessionId: session.id
+          sessionId: response.data.id
         })
-        //navigate(`/payment/${tripData.tripData._id}`)
+        //navigate(`/review/${tripData.tripData._id}`)
+      }else{
+        navigate(`/review/${tripData.tripData._id}`)
       }
     })
     return () => {
@@ -72,7 +77,7 @@ export default function TripPage() {
 
   const navigate = useNavigate();
   return (
-    <div className="bg-hero h-screen bg-no-repeat">
+    <div className="bg-hero h-[100vh] bg-no-repeat scrollbar-hide">
       <ToastContainer/>
     <Fa
         onClick={() => navigate(-1)}
@@ -89,7 +94,7 @@ export default function TripPage() {
               <div>
                 <h1 className="text-center font-bold">{tripData.tripData.ETA} Minutes away</h1>
                 {/* //Build div's here */}
-                <LiveMap DriverLocation={driverLocation} destination={[1,2]}/>
+                <LiveMap DriverLocation={driverLocation} destination={destination}/>
 
 
                   <div className="flex flex-row">
@@ -117,7 +122,7 @@ export default function TripPage() {
                           <h1 className="md:my-2">{tripData.tripData.otp}</h1>
                       </div>
                   </div>
-                </div>
+              </div>
 
               <div className="block w-full mt-12 lg:mt-0">
                 <img
@@ -125,11 +130,16 @@ export default function TripPage() {
                   className="hidden lg:block object-cover object-center w-full mx-auto drop-shadow-xl lg:ml-auto rounded-2xl"
                   src="/hero-image.png"
                 />
+
               </div>
             </div>
+
           </div>
         </div>
       </section>
+      <div className="flex items-end absolute bottom-0 right-1">
+      <Chat/>
+      </div>
     </div>
   );
 }

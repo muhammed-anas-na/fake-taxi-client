@@ -10,6 +10,8 @@ import ProtectedAuth from "./ProtectAuth";
 import FindCab from '../Components/User/FindCab';
 import SelectPayment from "../Components/User/SelectPayment";
 import TripPage from "../Components/User/TripPage";
+import TripReview from "../Components/User/TripReview";
+import TripSuccess from "../Components/User/TripSuccess";
 
 export default function DriverRoutes() {
   return (
@@ -68,6 +70,17 @@ export default function DriverRoutes() {
         path="/trip/:tripId"
         element={<TripPage/>}
         />
+
+        <Route
+          path="/review/:tripId"
+          element={<TripReview/>}
+        />
+
+        <Route
+        path="/trip-success/:tripId"
+        element={<TripSuccess/>}
+        />
+        
     </Routes>
   );
 }

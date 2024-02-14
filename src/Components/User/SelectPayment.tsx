@@ -22,23 +22,15 @@ export default function FindCab() {
   const handleContinueButtonClick = () => {
     if (selectedPayment) {
       dispatch(addFindCab({ payment: selectedPayment }));
-      if(selectedPayment == 'stripe'){
-        navigate(`/payment/${tripData.tripData._id}`)
-      }else{
-        navigate(`/trip/${tripData.tripData._id}`)
-      }
+      navigate(`/trip/${tripData.tripData._id}`)
     } else { 
       toast.error('Please select a payment method');
     }
   };
-
-
-
-  console.log("Trip Data ==> ", tripData);
   return (
     <div className="bg-hero h-screen bg-no-repeat">
       <Fa
-        onClick={() => navigate(-1)}
+        onClick={() => navigate(-2)}
         name="arrow-left"
         className="px-4 py-3 cursor-pointer text-2xl"
       />
@@ -53,8 +45,8 @@ export default function FindCab() {
                 
               
               <MapComponent
-                from={tripData.pickup_location}
-                to={tripData.dropoff_location}
+                from={tripData.tripData.pickup_location}
+                to={tripData.tripData.dropoff_location}
               />
               <div className="md:mt-2">
                 <Select label="Select Payment method" onChange={handlePaymentSelect} value={selectedPayment}>

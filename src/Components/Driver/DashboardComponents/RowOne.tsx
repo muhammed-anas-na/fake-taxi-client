@@ -29,6 +29,8 @@ export default function RowOne() {
     socket.emit('successRide' , {request,message});
     socket.on('tripCreated' , (data)=>{
       setRequest([])
+      console.log("Trip data in driver ==>" , data);
+      localStorage.setItem('userSocketId' , data.userSocketId);
       dispatch(addFindCab(data));
       navigate(`/driver/trip/${data.tripData._id}`)
     })

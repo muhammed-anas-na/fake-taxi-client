@@ -1,10 +1,9 @@
-import { Form, Link } from "react-router-dom";
 import { Input, Button } from "@material-tailwind/react";
 import Fa from "react-fontawesome";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
-import { SearchLocationFn , findCabFn } from "../../../utils/Axios/methods/POST";
+import { GetCurrentLocation, SearchLocationFn , findCabFn } from "../../../utils/Axios/methods/POST";
 import { useDispatch } from "react-redux";
 import { addFindCab } from "../../../utils/Redux/Slice/FindCabSlice";
 
@@ -64,50 +63,37 @@ export default function Dailyrides() {
       navigate('/findcab')
     }
   }
-
-
   const optimizedFn = useCallback(debounce(handleChange), []);
 
-  return (
-      <div className="overflow-hidden">
-        {/* <div className="flex flex-col items-center gap-3 mt-10 lg:flex-row">
-          <div className="w-72">
-            <Input
-              type="text"
-              variant="standard"
-              label="Name"
-              placeholder="Name"
-              crossOrigin="anonymous"
-              
-              onChange={(e) =>
-                setFormData((prevData) => ({
-                  ...prevData,
-                  name: e.target.value,
-                }))
-              }
-            />
-          </div>
-          <div className="w-72">
-            <Input
-              type="number"
-              variant="standard"
-              label="Number"
-              placeholder="Number"
-              crossOrigin="anonymous"
-              onChange={(e) =>
-                setFormData((prevData) => ({
-                  ...prevData,
-                  number: e.target.value,
-                }))
-              }
-            />
-          </div>
-        </div> */}
 
-        <div className="flex flex-col items-center gap-3 mt-10 lg:flex-row">
+  const findCurrentLocation = async()=>{
+    try{
+      navigator.geolocation.getCurrentPosition(async position => {
+        const longitude = position.coords.longitude;
+        const latitude = position.coords.latitude;
+      
+        try {
+          let response = await GetCurrentLocation({ latitude, longitude });
+          setFormData((prevData) => ({
+            ...prevData,
+            pickup_location:response.data,
+          }));
+        } catch (error) {
+          console.error("Error getting current location:", error);
+        }
+      });
+      
+    }catch(err){
+      return err;
+    }
+  }
+
+  return (
+      <div>
+        <div className="flex flex-col items-cente gap-3 mt-10 md:flex-row">
           <div className="w-72">
             <Input
-              icon={<Fa className="cursor-pointer" name="rocket" />}
+              icon={<Fa className="cursor-pointer" name="rocket" onClick={findCurrentLocation} />}
               type="text"
               name="pickup_location"
               variant="standard"

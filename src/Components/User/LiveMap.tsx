@@ -7,8 +7,8 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiYW5hcy1uYSIsImEiOiJjbHJoaGdydm0wYzd1Mml1Zzk2N
 
 
 
-export default function LiveMap({DriverLocation}) {
-  console.log("Driver location inmap ==>" , DriverLocation)
+export default function LiveMap({DriverLocation , destination}) {
+  console.log("Destination location inmap ==>" ,destination)
     const mapContainer = useRef(null);
     const map = useRef(null);
 
@@ -24,13 +24,16 @@ export default function LiveMap({DriverLocation}) {
                 element: createCustomMarkerElement(),
             })  
             .setLngLat([                  
-                  DriverLocation?.longitude? DriverLocation.longitude :76.321802,
-                  DriverLocation?.latitude? DriverLocation.latitude:9.9380803
+                  DriverLocation?.longitude? DriverLocation.longitude :76.450838,
+                  DriverLocation?.latitude? DriverLocation.latitude:10.024144
               ])
             .addTo(map.current);
 
             map.riderMarker = new mapboxgl.Marker()
-            .setLngLat([70, 10])
+            .setLngLat([
+              destination?.longitude? destination.longitude :76.321802,
+              destination?.latitude? destination.latitude:9.9380803
+            ])
             .addTo(map.current);
 
 

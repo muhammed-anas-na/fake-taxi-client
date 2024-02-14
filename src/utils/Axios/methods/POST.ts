@@ -18,6 +18,9 @@ import { LOGIN_API ,
     GET_TRIP_DATA_API,
     GET_LIVE_DRIVERS_API,
     STRIPE_API,
+    FINISH_TRIP_API,
+    GET_ALL_TRIPS_OF_USER,
+    GET_CURRENT_LOCATION,
 
 } from '../Endpoints/common';
 
@@ -127,6 +130,38 @@ export const StripeCheckoutFn = (data: object)=>{
         return err;
     }
 }
+
+export const FinishTrip = (data: object)=>{
+    try{
+        return axiosInstance.post(FINISH_TRIP_API, data)
+    }catch(err){
+        return err;
+    }
+}
+
+export const GetAllTripsOfUserFn = (Id: string)=>{
+    try{
+        return axiosInstance.post(GET_ALL_TRIPS_OF_USER , {Id})
+    }catch(err){
+        return err;
+    }
+}
+
+export const GetCurrentLocation = (data: object)=>{
+    try{
+        return axiosInstance.post(GET_CURRENT_LOCATION , data);
+    }catch(err){
+        return err;
+    }
+}
+
+
+
+
+
+
+
+
 
 //DRIVER METHODS
 

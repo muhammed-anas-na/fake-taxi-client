@@ -5,12 +5,13 @@ import { useEffect, useState } from "react";
 import io from "socket.io-client";
 import socket from "../Driver/Socket";
 import { addFindCab, clearFindCab, updateStatus } from "../../utils/Redux/Slice/FindCabSlice";
-import MapComponent from "./MapContainer";
 import { Select, Option, Button } from "@material-tailwind/react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import LiveMap from "./LiveMap";
 import { GetUserDetails } from "../../utils/Axios/methods/POST";
 import { Avatar, Typography } from "@material-tailwind/react";
+import Chat from "./Chat";
 
 export default function TripPage() {
   const dispatch = useDispatch();
@@ -25,7 +26,10 @@ export default function TripPage() {
     console.log("Sharing live location...")
     socket.emit('DriverLiveLocation', {latitude , longitude , userSocketId});
   })
-
+  socket.on('payment-success' ,()=>{
+    console.log("Payment success")
+    toast("Payment Recieved");
+  })
   useEffect(() => {
     async function FetchUserDetails() {
       try {
@@ -40,7 +44,7 @@ export default function TripPage() {
   }, []);
   const navigate = useNavigate();
   return (
-    <div className="bg-hero h-screen bg-no-repeat">
+    <div className="bg-hero h-[100vh] bg-no-repeat bg-fixed scrollbar-hide">
       <Fa
         onClick={() => navigate(-1)}
         name="arrow-left"
@@ -51,11 +55,11 @@ export default function TripPage() {
           <div className="relative flex-col">
             <h1 className="text-2xl font-semibold md:text-3xl">Trip</h1>
             <div className="grid grid-cols-1 gap-6 md:gap-24 md:grid-cols-2">
-              <div>
+              <div className="h-[80vh] overflow-x-auto scrollbar-hide">
                 {/* //Build div's here */}
                 <LiveMap />
 
-                <div className="flex flex-row md:h-44 overflow-y-auto">
+                <div className="flex flex-row">
                   <div>
                     <div className="flex gap-2 md:my-5">
                       <Avatar
@@ -111,7 +115,9 @@ export default function TripPage() {
                 {
                   tripStatus == 'pickedup'?(
                     <Button color="blue" fullWidth className="md:my-3" onClick={()=>{
+                      dispatch(addFindCab({pickup_time:Date.now()}))
                       dispatch(updateStatus("pickedup"))
+
                       socket.emit('pickedup' , {userSocketId})
                       setTripStatus('destination')
                       }}>
@@ -120,12 +126,14 @@ export default function TripPage() {
                   ):""
                 }
 
-{
+                {
                   tripStatus == 'destination'?(
                     <Button color="blue" fullWidth className="md:my-3" onClick={()=>{
+                      dispatch(addFindCab({dropoff_time:Date.now()}))
                       dispatch(updateStatus("trip-completed"))
                       socket.emit('destination-reached' , {userSocketId})
                       setTripStatus('trip-complete')
+                      navigate(`/driver/trip-success/${tripData.tripData._id}`)
                       }}>
                         Destination Reached
                     </Button> 
@@ -145,6 +153,9 @@ export default function TripPage() {
           </div>
         </div>
       </section>
+      <div className="flex items-end absolute bottom-0 right-1">
+      <Chat/>
+      </div>
     </div>
   );
 }

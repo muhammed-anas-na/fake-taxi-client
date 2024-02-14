@@ -18,17 +18,15 @@ const MapComponent:React.FC<MapComponentProps> = ({from,to}) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const directions = useRef(null);
-
   const [lng, setLng] = useState(0);
   const [lat, setLat] = useState(0);
   const [zoom, setZoom] = useState(15);
-
+  const [currentLocation , setCurrentLocation] = useState();
   useEffect(() => {
     if (!map.current) {
        map.current = new mapboxgl.Map({
          container: mapContainer.current,
          style: 'mapbox://styles/mapbox/streets-v12',
-         center:[10.025801, 76.449645],
          zoom: zoom,
        });
  
@@ -48,11 +46,11 @@ const MapComponent:React.FC<MapComponentProps> = ({from,to}) => {
         });
   
         map.current.addControl(directions.current, 'top-left');
-        directions.current.setOrigin('maradu'); // Set pickup location
-        directions.current.setDestination('vytilla'); // Set drop-off location
+        // directions.current.setOrigin('maradu'); // Set pickup location
+        // directions.current.setDestination('vytilla'); // Set drop-off location
 
-        // directions.current.setOrigin(from); // Set pickup location
-        // directions.current.setDestination(to); // Set drop-off location
+        directions.current.setOrigin(from); // Set pickup location
+        directions.current.setDestination(to); // Set drop-off location
 
      }
    } , [lat, lng, zoom]);
