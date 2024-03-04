@@ -38,7 +38,7 @@ export default function Header(){
               <rect x="14" y="11" width="7" height="12" />
             </svg>
             <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
-              Fake taxi
+              CarrGo
               {/* <img src='/logo.png' className='md:w-32 -rotate-12'/> */}
             </span>
           </a>
@@ -102,7 +102,7 @@ export default function Header(){
             {
               token?(
                 <li>
-                <Link to={'/profile'}>
+                <Link to={'/profile/personal'}>
               <button
                 className="bg-blue-500 rounded-full inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 focus:shadow-outline focus:outline-none"
                 aria-label="Sign up"

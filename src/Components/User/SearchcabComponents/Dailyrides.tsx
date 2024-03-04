@@ -89,31 +89,14 @@ export default function Dailyrides() {
   }
 
   return (
+    <>
       <div>
         <div className="flex flex-col items-cente gap-3 mt-10 md:flex-row">
-          <div className="w-72">
-            <Input
-              icon={<Fa className="cursor-pointer" name="rocket" onClick={findCurrentLocation} />}
-              type="text"
-              name="pickup_location"
-              variant="standard"
-              label="Pickup location"
-              placeholder="Pickup location"
-              crossOrigin="anonymous"
-              onChange={(e) => {
-                optimizedFn(e.target.value, e.target.name);
-                setFormData((prevData) => ({
-                  ...prevData,
-                  pickup_location: e.target.value,
-                }));
-              }}
-              value={FormData.pickup_location}
-            />
-
+          <div className="w-72 relative">
             {pickupSuggestion?.length > 0 && (
               <div className="absolute top-full left-0 mt-1 bg-white border rounded shadow-md overflow-y-auto h-24">
                 {pickupSuggestion.map(
-                  (val: { name: string , mapbox_id: string }, index: number) => (
+                  (val: { name: string; mapbox_id: string }, index: number) => (
                     <div
                       onClick={(e) => {
                         setFormData((prevData) => ({
@@ -131,29 +114,29 @@ export default function Dailyrides() {
                 )}
               </div>
             )}
-          </div>
-          <div className="w-72">
             <Input
+              icon={<Fa className="cursor-pointer" name="rocket" onClick={findCurrentLocation} />}
               type="text"
-              name="dropoff_location"
+              name="pickup_location"
               variant="standard"
-              label="Dropoff location"
-              placeholder="Dropoff location"
+              label="Pickup location"
+              placeholder="Pickup location"
               crossOrigin="anonymous"
               onChange={(e) => {
                 optimizedFn(e.target.value, e.target.name);
                 setFormData((prevData) => ({
                   ...prevData,
-                  dropoff_location: e.target.value,
-                  
+                  pickup_location: e.target.value,
                 }));
               }}
-              value={FormData.dropoff_location}
+              value={FormData.pickup_location}
             />
+          </div>
+          <div className="w-72 relative">
             {dropoffSuggestion?.length > 0 && (
-              <div className="absolute top-full left-0 mt-1 bg-white border rounded shadow-md overflow-y-auto h-24 md:ms-72">
+              <div className="absolute top-full left-0 mt-1 bg-white border rounded shadow-md overflow-y-auto h-24">
                 {dropoffSuggestion.map(
-                  (val: { name: string , mapbox_id: string }, index: number) => (
+                  (val: { name: string; mapbox_id: string }, index: number) => (
                     <div
                       onClick={(e) => {
                         setFormData((prevData) => ({
@@ -171,13 +154,31 @@ export default function Dailyrides() {
                 )}
               </div>
             )}
+            <Input
+              className=""
+              type="text"
+              name="dropoff_location"
+              variant="standard"
+              label="Dropoff location"
+              placeholder="Dropoff location"
+              crossOrigin="anonymous"
+              onChange={(e) => {
+                optimizedFn(e.target.value, e.target.name);
+                setFormData((prevData) => ({
+                  ...prevData,
+                  dropoff_location: e.target.value,
+                }));
+              }}
+              value={FormData.dropoff_location}
+            />
           </div>
         </div>
-        <div className="mt-5 md:mt-16">
-          <Button color="blue" fullWidth onClick={handleFindCab}>
-            FIND CAB
-          </Button>
-        </div>
+        <div></div>
       </div>
+      <Button color="blue" fullWidth onClick={handleFindCab} className="md:mt-10">
+        FIND CAB
+      </Button>
+    </>
   );
+
 }

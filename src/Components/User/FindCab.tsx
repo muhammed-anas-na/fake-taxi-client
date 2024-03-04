@@ -1,21 +1,21 @@
 import Fa from "react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import MapContainer from "./MapContainer";
-
 import socket from "../Driver/Socket";
-
 import { useDispatch } from "react-redux";
 import { addFindCab, clearFindCab } from "../../utils/Redux/Slice/FindCabSlice";
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import MapComponent from "./MapContainer";
+import SearchDriverLoading from "../Loading/SearchDriverLoading";
+
 
 export default function FindCab() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isLoading , setIsLoading] = useState(false);
 
   const { distance, duration, from, to } = useSelector(
     (store) => store.findcab.findcabData
@@ -26,34 +26,7 @@ export default function FindCab() {
   const [hashbackPrice, sethashbackPrice] = useState(0);
   const [suvPrice, setsuvPrice] = useState(0);
 
-  function calculateFare(distanceInMeter: number, durationInSecond: number) {
-    const distanceInKm = distanceInMeter / 1000;
-    const durationInMinute = durationInSecond / 60;
 
-    const BASE_PRICE_FOR_BIKE = 10;
-    const BASE_PRICE_FOR_HASHBACKS = 30;
-    const BASE_PRICE_FOR_SUV = 50;
-    const PER_KM_FARE = 10;
-    const PER_MIN_FARE = 1.5;
-
-    const PRICE_FOR_KM = PER_KM_FARE * distanceInKm;
-    const PRICE_FOR_MIN = PER_MIN_FARE * durationInMinute;
-
-    const TOTAL_BIKE_FARE = Math.floor(
-      BASE_PRICE_FOR_BIKE + PRICE_FOR_KM + PRICE_FOR_MIN
-    );
-    const TOTAL_HASHBACK_FARE = Math.floor(
-      BASE_PRICE_FOR_HASHBACKS + PRICE_FOR_KM + PRICE_FOR_MIN
-    );
-    const TOTAL_SUV_FARE = Math.floor(
-      BASE_PRICE_FOR_SUV + PRICE_FOR_KM + PRICE_FOR_MIN
-    );
-    return {
-      TOTAL_HASHBACK_FARE,
-      TOTAL_BIKE_FARE,
-      TOTAL_SUV_FARE,
-    };
-  }
 
   useEffect(() => {
     const { TOTAL_BIKE_FARE, TOTAL_HASHBACK_FARE, TOTAL_SUV_FARE } =
@@ -63,9 +36,11 @@ export default function FindCab() {
     setsuvPrice(TOTAL_SUV_FARE);
 
     socket.on("ride-reject", () => {
+      setIsLoading(false);
       toast("Driver rejected yout ride.Try again.");
     });
     socket.on("Nomatch-driver", () => {
+      setIsLoading(false);
       toast("No driver avalible");
     });
 
@@ -77,7 +52,7 @@ export default function FindCab() {
 
   const handleFindCab = async (num: number) => {
     //const socket = io('http://localhost:8003');
-
+    setIsLoading(true);
     let category;
     let total_price;
     if (num == 1) {
@@ -98,11 +73,8 @@ export default function FindCab() {
       socket.on("successResponseFromDriver", (data) => {
         console.log("Trip created ==> ", data);
         dispatch(clearFindCab());
-
-        //Adding Driver SOcketId to LocalStorage
-        console.log("User socket Id", data.Id);
-        localStorage.setItem("driverSocketId", data.Id);
         dispatch(addFindCab(data));
+        console.log("User socket Id", data.Id);
         navigate(`/payment-select/${data.tripData._id}`);
       });
     } catch (err) {
@@ -110,7 +82,6 @@ export default function FindCab() {
       console.log(err);
     }
   };
-  const MemoizedMapComponent = React.memo(MapComponent)
   return (
     <div className="bg-hero h-[98vh] bg-no-repeat bg-fixed scrollbar-hide">
       <ToastContainer />
@@ -127,8 +98,10 @@ export default function FindCab() {
             </h1>
             <div className="grid grid-cols-1 gap-6 lg:gap-24 lg:grid-cols-2">
               <div className="h-[80vh] overflow-x-auto scrollbar-hide">
-                <MemoizedMapComponent from={from} to={to} />
-                <div className="md:mt-4 overflow-x-hidden">
+                <MapContainer from={from} to={to} />
+                {
+                  !isLoading ?(
+                    <div className="md:mt-4 overflow-x-hidden">
                   <div
                     onClick={() => handleFindCab(1)}
                     className="flex hover:translate-x-3 duration-500 items-center gap-5 bg-white shadow-2xl p-2 rounded-lg cursor-pointer mt-4"
@@ -204,6 +177,9 @@ export default function FindCab() {
                     </div>
                   </div>
                 </div>
+                  ):(<SearchDriverLoading/>)
+                }
+                
               </div>
 
               <div className="block w-full mt-12 lg:mt-0">
@@ -220,3 +196,33 @@ export default function FindCab() {
     </div>
   );
 }
+
+function calculateFare(distanceInMeter: number, durationInSecond: number) {
+  const distanceInKm = distanceInMeter / 1000;
+  const durationInMinute = durationInSecond / 60;
+
+  const BASE_PRICE_FOR_BIKE = 10;
+  const BASE_PRICE_FOR_HASHBACKS = 30;
+  const BASE_PRICE_FOR_SUV = 50;
+  const PER_KM_FARE = 10;
+  const PER_MIN_FARE = 1.5;
+
+  const PRICE_FOR_KM = PER_KM_FARE * distanceInKm;
+  const PRICE_FOR_MIN = PER_MIN_FARE * durationInMinute;
+
+  const TOTAL_BIKE_FARE = Math.floor(
+    BASE_PRICE_FOR_BIKE + PRICE_FOR_KM + PRICE_FOR_MIN
+  );
+  const TOTAL_HASHBACK_FARE = Math.floor(
+    BASE_PRICE_FOR_HASHBACKS + PRICE_FOR_KM + PRICE_FOR_MIN
+  );
+  const TOTAL_SUV_FARE = Math.floor(
+    BASE_PRICE_FOR_SUV + PRICE_FOR_KM + PRICE_FOR_MIN
+  );
+  return {
+    TOTAL_HASHBACK_FARE,
+    TOTAL_BIKE_FARE,
+    TOTAL_SUV_FARE,
+  };
+}
+

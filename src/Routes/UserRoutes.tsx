@@ -12,6 +12,8 @@ import SelectPayment from "../Components/User/SelectPayment";
 import TripPage from "../Components/User/TripPage";
 import TripReview from "../Components/User/TripReview";
 import TripSuccess from "../Components/User/TripSuccess";
+import TripCancel from "../Components/User/TripCancel";
+import TripDetails from "../Components/User/TripDetails";
 
 export default function DriverRoutes() {
   return (
@@ -39,7 +41,7 @@ export default function DriverRoutes() {
       <Route path="/signup" element={<UserSignup />} />
 
       <Route
-        path="/profile"
+        path="/profile/*"
         element={
           <ProtectedRoute>
             <UserProfile />
@@ -50,37 +52,67 @@ export default function DriverRoutes() {
       <Route
         path="/searchcab"
         element={
-          //Protect this route
+          <ProtectedRoute>
           <Bookcab />
+          </ProtectedRoute>
         }
       />
 
       <Route
         path="/findcab"
-        element={<FindCab/>}
+        element={
+        <ProtectedRoute>
+          <FindCab/>
+          </ProtectedRoute>
+      
+      }
       />
 
         <Route
           path="/payment-select/:tripId"
-          element={<SelectPayment/>}
-
+          element={
+          <ProtectedRoute>
+          <SelectPayment/>
+          </ProtectedRoute>
+          }
         />
 
       <Route
         path="/trip/:tripId"
-        element={<TripPage/>}
+        element={
+        <ProtectedRoute>
+          <TripPage/>
+        </ProtectedRoute>
+  
+        }
         />
 
         <Route
           path="/review/:tripId"
-          element={<TripReview/>}
+          element={
+          <ProtectedRoute>
+          <TripReview/>
+          </ProtectedRoute>}
         />
 
         <Route
         path="/trip-success/:tripId"
-        element={<TripSuccess/>}
+        element={
+        <ProtectedRoute>
+        <TripSuccess/>
+        </ProtectedRoute>}
         />
-        
+
+        <Route path="/trip-cancel/:tripID" element={
+        <ProtectedRoute>
+        <TripCancel/>
+        </ProtectedRoute>
+        }/>
+        <Route path="/trip-details/:tripId" element={
+        <ProtectedRoute>
+        <TripDetails/>
+        </ProtectedRoute>
+      }/>
     </Routes>
   );
 }

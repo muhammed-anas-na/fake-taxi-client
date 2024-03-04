@@ -2,6 +2,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Body from "./Body";
 
 export default function Home() {
   return (
@@ -154,8 +155,9 @@ export default function Home() {
             </div>
           </div>
         </section>
-      </div>
+        <Body/>
       <Footer />
+      </div>
     </>
   );
 }

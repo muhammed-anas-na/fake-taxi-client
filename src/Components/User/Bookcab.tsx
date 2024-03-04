@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Bookcab() {
   const navigate = useNavigate()
   return (
-    <div className="bg-hero h-[98vh] scrollbar-hide overflow-x-hidden ">
+    <div className="bg-hero h-[98vh] scrollbar-hide">
       <Fa onClick={()=>navigate(-1)} name="arrow-left" className='px-4 py-3 cursor-pointe text-2xl'/>
       <section className="relative flex items-center w-full">
         <div className="relative items-center w-full px-5 py-24 mx-auto max-w-7xl md:px-12">

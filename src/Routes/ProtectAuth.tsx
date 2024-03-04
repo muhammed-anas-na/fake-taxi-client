@@ -9,8 +9,8 @@ interface storeData{
 } 
 
 const ProtectedAuth = ({children}:{children:any}) => {
-  const token = useSelector((store: storeData) => store?.token?.token); 
-  if(token) {
+  const user = useSelector((store: storeData) => store?.user?.userData); 
+  if(user.full_name) {
       return <Navigate to="/"/>
   }
 return children

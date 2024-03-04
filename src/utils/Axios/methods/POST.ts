@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from './axiosInstance';
 import { LOGIN_API ,
     SIGNUP_API,
     DRIVER_SIGNUP_API,
@@ -21,15 +21,15 @@ import { LOGIN_API ,
     FINISH_TRIP_API,
     GET_ALL_TRIPS_OF_USER,
     GET_CURRENT_LOCATION,
+    ACCEPT_DRIVER_REQUST,
+    GET_TRIP_DETAILS_BY_ID_API,
+    GET_TRIP_DETAIL_BY_DRIVER_ID_API,
+    BLOCK_DRIVER_API,
+    GET_TRIP_DETAIL_BY_USER_ID_API,
+    COMPLETE_CANCEL_TRIP_DETAILS_API,
 
 } from '../Endpoints/common';
 
-const axiosInstance = axios.create({
-  withCredentials: true, // Enables the sending of cookies with cross-origin requests
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
 
 
 //USER METHODS
@@ -155,7 +155,21 @@ export const GetCurrentLocation = (data: object)=>{
     }
 }
 
+export const GetTripDetailsByUserIdFn = (userId: string)=>{
+    try{
+        return axiosInstance.post(GET_TRIP_DETAIL_BY_USER_ID_API , {userId})
+    }catch(err){
+        return err;
+    }
+}
 
+export const completeCancelTripFn = (data:object)=>{
+    try{
+        return axiosInstance.post(COMPLETE_CANCEL_TRIP_DETAILS_API , data)
+    }catch(err){
+        return err;
+    }
+}
 
 
 
@@ -213,7 +227,13 @@ export const DriverCheckOtpFn = async(data:object)=>{
     }
 }
 
-
+export const GetTripDetailsByDriverIdFn = async(driverId: string)=>{
+    try{
+        return axiosInstance.post(GET_TRIP_DETAIL_BY_DRIVER_ID_API , {driverId})
+    }catch(err){
+        return err;
+    }
+}
 
 
 
@@ -226,3 +246,28 @@ export const AdminLoginFn= async(data: object)=>{
         return err;
     }
 }
+
+export const AcceptDriverRequestFn = async(driverId: string)=>{
+    try{
+        return axiosInstance.post(ACCEPT_DRIVER_REQUST , {driverId})
+    }catch(err){
+        return err;
+    }
+}
+
+export const GetTripDetailsByIdFn = async(tripId: string)=>{
+    try{
+        return axiosInstance.post(GET_TRIP_DETAILS_BY_ID_API , {tripId})
+    }catch(err){
+        return err;
+    }
+}
+
+export const BlockDriverByIdFn = async(data: object)=>{
+    try{
+        return axiosInstance.post(BLOCK_DRIVER_API ,data);
+    }catch(err){
+        return err;
+    }
+}
+

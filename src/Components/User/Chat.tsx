@@ -42,7 +42,7 @@ const Chat = () => {
       <div className="flex border p-2 shadow-2xl items-center">
         <Avatar src="https://docs.material-tailwind.com/img/face-2.jpg" alt="avatar" size="sm" />
         <div>
-          <h1 className="font-bold">Driver Name</h1>
+          <h1 className="font-bold">Message</h1>
           <p className="text-xs">8089568695</p>
         </div>
         <h1 className="ml-auto" onClick={() => setOpen(!open)}>{open ? "Close" : "Open"}</h1>

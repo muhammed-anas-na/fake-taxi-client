@@ -59,7 +59,7 @@ export default function RowOne() {
 
   return (
     <>
-    <section className="px-4 py-12 mx-auto max-w-7xl">
+    <section className="px-4 py-12 max-w-7xl md:ms-[35vh]">
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
         <div className="card border-none shadow-xl hover:shadow-2xl duration-500 hover:-translate-x-3">
           <div className="p-5">

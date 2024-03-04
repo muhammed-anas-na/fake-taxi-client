@@ -9,9 +9,10 @@ interface storeData{
 } 
 
 const ProtectedRoute = ({children}:{children:any}) => {
-  const user = useSelector((store: storeData) => store?.token?.token); 
-  if(!user) {
-      return <Navigate to="/login"/>
+  const user = useSelector((store: storeData) => store?.user?.userData); 
+  console.log("User ==>" , user);
+  if(!user.full_name) {
+    return <Navigate to="/login"/>
   }
 return children
 

@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { addUser, clearUser } from "../../utils/Redux/Slice/UserSlice";
 import { addtoken } from "../../utils/Redux/Slice/tokenSlice";
 import axios from 'axios';
+import axiosInstance from "../../utils/Axios/methods/axiosInstance";
 
 interface storeData{
   token:{
@@ -20,10 +21,6 @@ interface storeData{
 
 export default function UserLogin() {
   const navigate = useNavigate();
-  const token = useSelector((store: storeData)=>store.token.token)
-  if(token){
-    navigate('/')
-  }
   const dispatch = useDispatch();
 
   const {
@@ -36,11 +33,12 @@ export default function UserLogin() {
     try {
       const response = await LoginFn(data);
       if (response.status == 200) {
-        console.log(response);
         dispatch(clearUser());
+        console.log(response.data.userData);
         dispatch(addUser(response.data.userData));
         dispatch(addtoken(response.data.accessToken));
-        axios.defaults.headers.common['Authorization'] = `${response.data.accessToken}` 
+        localStorage.setItem('accessToken' , response.data.accessToken)
+        //axiosInstance.defaults.headers.common['Authorization'] = `${response.data.accessToken}` 
         navigate('/');
       }
     } catch (err: any) {

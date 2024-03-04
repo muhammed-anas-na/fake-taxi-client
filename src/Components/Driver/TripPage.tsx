@@ -41,6 +41,14 @@ export default function TripPage() {
       }
     }
     FetchUserDetails();
+
+    socket.on('cancel-trip-by-user' , (data)=>{
+      dispatch(updateStatus('trip-cancelled'))
+      dispatch(addFindCab({cancelReason :data.reason }))
+      dispatch(addFindCab({selectedOption:data.selectedOption}))
+      navigate(`/driver/trip-canceled/${tripData.tripData._id}`)
+    })
+    return (()=>socket.off('cancel-trip-by-user'))
   }, []);
   const navigate = useNavigate();
   return (

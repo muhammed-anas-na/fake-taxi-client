@@ -9,6 +9,9 @@ import { ThemeProvider } from "@material-tailwind/react";
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
+  {
+    console.log(import.meta.env.VITE_ENVIRONMENT)
+  }
     <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <ThemeProvider>

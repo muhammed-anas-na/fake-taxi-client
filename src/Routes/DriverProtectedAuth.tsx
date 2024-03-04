@@ -9,12 +9,10 @@ interface storeData{
 } 
 
 const DriverProtectedAuth = ({children}:{children:any}) => {
-  const token = useSelector((store: storeData) => store?.token?.token); 
-  if(token) {
+  const user = useSelector((store: storeData) => store?.driver?.driverData); 
+  if(user.full_name) {
       return <Navigate to="/driver/dashboard"/>
   }
 return children
 };
-
-
 export default DriverProtectedAuth;

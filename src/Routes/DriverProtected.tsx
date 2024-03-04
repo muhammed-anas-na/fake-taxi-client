@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const DriverProtected = ({children}:{children:any}) => {
   const user = useSelector((store: object) => store?.driver?.driverData);
-  if(!user.firstName) {
+  if(!user.full_name) {
       return <Navigate to="/driver/login"/>
   }
 return children

@@ -1,11 +1,9 @@
 import Fa from "react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import { useSelector , useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import io from "socket.io-client";
-import socket from "../Driver/Socket";
+import React,{useState } from "react";
 import { addFindCab, clearFindCab } from "../../utils/Redux/Slice/FindCabSlice";
-import MapComponent from "./MapContainer";
+import MapContainer from "./MapContainer";
 import { Select, Option ,Button } from "@material-tailwind/react";
 import { toast } from "react-toastify";
 
@@ -14,11 +12,10 @@ export default function FindCab() {
   const [selectedPayment, setSelectedPayment] = useState(''); // State to track the selected payment method
   const dispatch = useDispatch();
   const tripData = useSelector((store) => store.findcab.findcabData);
-
   const handlePaymentSelect = (value) => {
     setSelectedPayment(value);
   };
-
+    
   const handleContinueButtonClick = () => {
     if (selectedPayment) {
       dispatch(addFindCab({ payment: selectedPayment }));
@@ -27,6 +24,7 @@ export default function FindCab() {
       toast.error('Please select a payment method');
     }
   };
+
   return (
     <div className="bg-hero h-screen bg-no-repeat">
       <Fa
@@ -42,10 +40,8 @@ export default function FindCab() {
             </h1>
             <div className="grid grid-cols-1 gap-6 md:gap-24 md:grid-cols-2">
               <div>
-                
-              
-              <MapComponent
-                from={tripData.tripData.pickup_location}
+              <MapContainer
+                from={tripData.tripData.pickup_location}  
                 to={tripData.tripData.dropoff_location}
               />
               <div className="md:mt-2">

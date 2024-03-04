@@ -60,11 +60,11 @@ export default function EnterVhDetails() {
       console.log(data);
       const response: responseData = await DriverSignupFn(data);
       if (response.status == 200) {
-        dispatch(addDriver(response.data.newDriver));
-        dispatch(addtoken(response.data.accessToken));
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `${response.data.accessToken}`;
+        // dispatch(addDriver(response.data.newDriver));
+        // dispatch(addtoken(response.data.accessToken));
+        // axios.defaults.headers.common[
+        //   "Authorization"
+        // ] = `${response.data.accessToken}`;
         navigate("/driver/success");
         localStorage.removeItem("driverDetails");
       } else {

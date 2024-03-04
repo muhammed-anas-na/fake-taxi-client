@@ -14,22 +14,23 @@ import { FinishTrip } from "../../utils/Axios/methods/POST";
 export default function FindCab() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [rating , setRating] = useState();
   const tripData = useSelector((store) => store.findcab.findcabData);
-  const [review , setReview] = useState('')
-  const driverSocketId = localStorage.getItem('driverSocketId')
+  const [review, setReview] = useState("");
+  const driverSocketId = localStorage.getItem("driverSocketId");
   console.log(driverSocketId);
-  socket.emit('payment-success' , {driverSocketId})
-  const handleSubmit=async()=>{
-    try{
-      dispatch(addFindCab({review}))    
-      let response = await FinishTrip({...tripData , review});
-        if(response.status == 200){
-          navigate(`/trip-success/${tripData.tripData._id}`)
-        }
-      }catch(err){
-        console.log(err);
+  socket.emit("payment-success", { driverSocketId });
+  const handleSubmit = async () => {
+    try {
+      dispatch(addFindCab({ review }));
+      let response = await FinishTrip({ ...tripData, review , rating });
+      if (response.status == 200) {
+        navigate(`/trip-success/${tripData.tripData._id}`);
+      }
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   console.log("Trip Data ==> ", tripData);
   return (
@@ -52,8 +53,47 @@ export default function FindCab() {
                   to={tripData.tripData.dropoff_location}
                 />
                 <div className="md:mt-3">
+                  <div className="rating">
+                    <input
+                      type="radio"
+                      name="rating-2"
+                      className="mask mask-star-2 bg-orange-400"
+                      onClick={()=>setRating(1)}
+                    />
+                    <input
+                      type="radio"
+                      name="rating-2"
+                      className="mask mask-star-2 bg-orange-400"
+                      onClick={()=>setRating(2)}
+                    />
+                    <input
+                      type="radio"
+                      name="rating-2"
+                      className="mask mask-star-2 bg-orange-400"
+                      onClick={()=>setRating(3)}
+                    />
+                    <input
+                      type="radio"
+                      name="rating-2"
+                      className="mask mask-star-2 bg-orange-400"
+                      onClick={()=>setRating(4)}
+                    />
+                    <input
+                      type="radio"
+                      name="rating-2"
+                      className="mask mask-star-2 bg-orange-400"
+                      onClick={()=>setRating(5)}
+                    />
+                  </div>
+
                   <div className="relative w-[32rem]">
-                    <Textarea placeholder="Your Review" value={review}  onChange={(e)=>{setReview(e.target.value)}}/>
+                    <Textarea
+                      placeholder="Your Review"
+                      value={review}
+                      onChange={(e) => {
+                        setReview(e.target.value);
+                      }}
+                    />
                     <div className="flex w-full justify-between py-1.5">
                       <IconButton variant="text" color="blue-gray" size="sm">
                         <svg
@@ -72,7 +112,11 @@ export default function FindCab() {
                         </svg>
                       </IconButton>
                       <div className="flex gap-2">
-                        <Button size="sm" className="rounded-md" onClick={handleSubmit}>
+                        <Button
+                          size="sm"
+                          className="rounded-md"
+                          onClick={handleSubmit}
+                        >
                           Continue
                         </Button>
                       </div>
