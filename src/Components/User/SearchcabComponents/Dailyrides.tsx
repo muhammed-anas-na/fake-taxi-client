@@ -68,10 +68,11 @@ export default function Dailyrides() {
 
   const findCurrentLocation = async()=>{
     try{
+      
       navigator.geolocation.getCurrentPosition(async position => {
         const longitude = position.coords.longitude;
         const latitude = position.coords.latitude;
-      
+        
         try {
           let response = await GetCurrentLocation({ latitude, longitude });
           setFormData((prevData) => ({
@@ -84,7 +85,7 @@ export default function Dailyrides() {
       });
       
     }catch(err){
-      return err;
+      console.log(err);
     }
   }
 

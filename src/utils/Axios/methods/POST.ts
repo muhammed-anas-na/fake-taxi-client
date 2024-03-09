@@ -27,6 +27,7 @@ import { LOGIN_API ,
     BLOCK_DRIVER_API,
     GET_TRIP_DETAIL_BY_USER_ID_API,
     COMPLETE_CANCEL_TRIP_DETAILS_API,
+    GET_DASHBOARD_DATA,
 
 } from '../Endpoints/common';
 
@@ -230,6 +231,14 @@ export const DriverCheckOtpFn = async(data:object)=>{
 export const GetTripDetailsByDriverIdFn = async(driverId: string)=>{
     try{
         return axiosInstance.post(GET_TRIP_DETAIL_BY_DRIVER_ID_API , {driverId})
+    }catch(err){
+        return err;
+    }
+}
+
+export const GetDashBoardDataFn = async(driverId: string)=>{
+    try{
+        return axiosInstance.post(GET_DASHBOARD_DATA , {driverId})
     }catch(err){
         return err;
     }

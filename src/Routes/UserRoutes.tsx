@@ -14,6 +14,7 @@ import TripReview from "../Components/User/TripReview";
 import TripSuccess from "../Components/User/TripSuccess";
 import TripCancel from "../Components/User/TripCancel";
 import TripDetails from "../Components/User/TripDetails";
+import Contactus from "../Components/User/Contactus";
 
 export default function DriverRoutes() {
   return (
@@ -112,7 +113,9 @@ export default function DriverRoutes() {
         <ProtectedRoute>
         <TripDetails/>
         </ProtectedRoute>
-      }/>
+        }/>
+
+        <Route path="/contactUs" element={<Contactus/>} />
     </Routes>
   );
 }

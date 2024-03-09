@@ -33,7 +33,7 @@ axiosInstance.interceptors.response.use(
       console.log("inside iff")
       try {
         const route = import.meta.env.VITE_ENVIRONMENT == 'dev' ? 'http://localhost:8000/user/refresh-token' : import.meta.env.VITE_REFRESH_ROUTE
-        console.log("ROute ==>" ,route);
+        console.log("Requesting new accessToken==>" ,route);
         const refreshResponse = await axiosInstance.post(route);
         const newAccessToken = refreshResponse.data.accessToken;
         console.log("New Accesstoken set to localstorage ==>" , newAccessToken);

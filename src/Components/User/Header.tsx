@@ -43,16 +43,27 @@ export default function Header(){
             </span>
           </a>
           <ul className="flex items-center hidden space-x-8 lg:flex">
+          <li className='group'>
+              <Link
+                to="/"
+                aria-label="Our product"
+                title="Our product"
+                className="font-medium tracking-wide text-gray-700
+                bg-left-bottom bg-gradient-to-r from-blue-500 to-blue-500 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
+              >
+                Home
+              </Link>
+            </li>
             <li className='group'>
-              <a
-                href="/"
+              <Link
+                to="/contactUs"
                 aria-label="Our product"
                 title="Our product"
                 className="font-medium tracking-wide text-gray-700
                 bg-left-bottom bg-gradient-to-r from-blue-500 to-blue-500 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
               >
                 Contact us
-              </a>
+              </Link>
             </li>
             {/* <div className="p-20"> 
   <a className='group' href='#'> 

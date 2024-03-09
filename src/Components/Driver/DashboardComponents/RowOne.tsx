@@ -5,6 +5,8 @@ import socket from '../Socket';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addFindCab } from '../../../utils/Redux/Slice/FindCabSlice';
+import { useSelector } from 'react-redux';
+import { GetDashBoardDataFn } from '../../../utils/Axios/methods/POST';
 
 export default function RowOne() {
 
@@ -12,18 +14,30 @@ export default function RowOne() {
   
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const driverData = useSelector((store)=>store.driver.driverData);
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(0);
   const [lat, setLat] = useState(0);
   const [zoom, setZoom] = useState(15);
   const [request , setRequest] = useState([])
-
+  const [dashboardData , setDasboardData] = useState();
   socket.on('reqestToDriver', (data) => { 
     console.log("Requesting for ridee==>",data)
     setRequest(() => [data]);
   });
+
+  useEffect(()=>{
+    async function fetchDashBoardData(){
+      try{
+        let response = await GetDashBoardDataFn(driverData._id)
+        setDasboardData(response.data);
+      }catch(err){
+        console.log("Error while fetching Dashboard data ==>",err)
+      }
+    }
+    fetchDashBoardData()
+  },[])
   
   const handleRequest=(message: string)=>{
     socket.emit('successRide' , {request,message});
